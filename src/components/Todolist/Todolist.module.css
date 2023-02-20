@@ -1,0 +1,29 @@
+.wrapper {
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.error {
+    border: 1px solid red;
+}
+
+.error:focus {
+    outline: none;
+}
+
+.errorMessage {
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    color: red;
+}
+
+.activeFilter {
+    background-color: #4164f1;
+    color: #fff;
+}
+
+.taskIsDone {
+    opacity: .5;
+}
+

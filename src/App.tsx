@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 
-import {Todolist} from "./components/Todolist";
+import {Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
 
 export type TasksType = {
@@ -17,7 +17,7 @@ function App() {
 
 
    const [tasks, setTasks] = useState<Array<TasksType>>([
-      {id: v1(), title: "HTML&CSS", isDone: true},
+      {id: v1(), title: "HTML&CSS", isDone: false},
       {id: v1(), title: "JS", isDone: true},
       {id: v1(), title: "ReactJS", isDone: false},
       {id: v1(), title: "ReactJS", isDone: true},
@@ -49,10 +49,10 @@ function App() {
    let filteredTasks = tasks;
    if (filterTask === 'active') {
       filteredTasks = tasks.filter(item => !item.isDone)
-   };
+   }
    if (filterTask === 'completed') {
       filteredTasks = tasks.filter(item => item.isDone)
-   };
+   }
 
    return (
       <div className="App">

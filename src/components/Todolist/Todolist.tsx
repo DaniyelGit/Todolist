@@ -1,6 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {FilterValuesType, TasksType} from "../App";
-import {Button} from "./Button";
+import s from './Todolist.module.css';
+
+import {FilterValuesType, TasksType} from "../../App";
+import {Button} from "../Button";
 
 type TodolistPropsType = {
    title: string
@@ -22,14 +24,24 @@ export const Todolist = (props: TodolistPropsType) => {
    } = props;
 
    const [valueInput, setValueInput] = useState<string>('');
+   const [error, setError] = useState<string | null>(null);
+
+   const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>('all')
 
    const addTaskHandler = () => {
-      addTask(valueInput);
-      setValueInput('');
+      if (valueInput.trim() !== '') {
+         addTask(valueInput.trim());
+         setValueInput('');
+      }
+      else {
+         setError('Title is reqired');
+      }
    };
 
    const changeValueInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setValueInput(e.currentTarget.value);
+
+      error && setError(null);
    };
 
    const removeTaskHandler = (taskID: string) => {
@@ -46,9 +58,14 @@ export const Todolist = (props: TodolistPropsType) => {
       }
    };
 
-   const mappedTasks = tasks && tasks.map((task, index) => {
+   const changeFilterHandler = (filter: FilterValuesType) => {
+      changeFilter(filter);
+      setStyleForBtnFiltered(filter);
+   }
+
+   const mappedTasks = tasks && tasks.map(task => {
       return (
-         <li key={task.id}>
+         <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
             <button onClick={() => removeTaskHandler(task.id)}>x</button>
             <input type="checkbox" checked={task.isDone} onChange={() => changeCheckedHandler(task.id)}/>
             <span>{task.title}</span>
@@ -59,17 +76,20 @@ export const Todolist = (props: TodolistPropsType) => {
    return (
       <div>
          <h3>{title}</h3>
-         <div>
-            <input value={valueInput} onChange={changeValueInputHandler} onKeyPress={onKeyPressHandler}/>
+         <div className={s.wrapper}>
+            <input className={error ? s.error : ''} value={valueInput} onChange={changeValueInputHandler} onKeyPress={onKeyPressHandler}/>
             <button onClick={addTaskHandler}>+</button>
+            {
+               error &&  <div className={s.errorMessage}>{error}</div>
+            }
          </div>
          <ul>
             {mappedTasks}
          </ul>
          <div>
-            <Button onClick={() => changeFilter('all')}>all</Button>
-            <Button onClick={() => changeFilter('active')}>active</Button>
-            <Button onClick={() => changeFilter('completed')}>completed</Button>
+            <Button className={styleForBtnFiltered === 'all' ? s.activeFilter : ''} onClick={() => changeFilterHandler('all')}>all</Button>
+            <Button className={styleForBtnFiltered === 'active' ? s.activeFilter : ''} onClick={() => changeFilterHandler('active')}>active</Button>
+            <Button className={styleForBtnFiltered === 'completed' ? s.activeFilter : ''} onClick={() => changeFilterHandler('completed')}>completed</Button>
          </div>
       </div>
    );
