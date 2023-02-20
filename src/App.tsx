@@ -38,9 +38,9 @@ function App() {
       setTasks([...tasks, newTask]);
    };
 
-   const changeChecked = (taskID: string) => {
+   const changeChecked = (eventBool: boolean, taskID: string) => {
       setTasks([...tasks].map(item => item.id === taskID ?
-         {...item, isDone: !item.isDone}
+         {...item, isDone: eventBool}
          : item));
    };
 

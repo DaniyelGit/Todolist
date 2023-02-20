@@ -10,7 +10,7 @@ type TodolistPropsType = {
    removeTask: (taskId: string) => void
    changeFilter: (filter: FilterValuesType) => void
    addTask: (titleTask: string) => void
-   changeChecked: (taskID: string) => void
+   changeChecked: (eventBool: boolean, taskID: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -48,8 +48,8 @@ export const Todolist = (props: TodolistPropsType) => {
       removeTask(taskID);
    };
 
-   const changeCheckedHandler = (taskID: string) => {
-      changeChecked(taskID);
+   const changeCheckedHandler = (eventBool: boolean, taskID: string) => {
+      changeChecked(eventBool, taskID);
    };
 
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -67,7 +67,7 @@ export const Todolist = (props: TodolistPropsType) => {
       return (
          <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
             <button onClick={() => removeTaskHandler(task.id)}>x</button>
-            <input type="checkbox" checked={task.isDone} onChange={() => changeCheckedHandler(task.id)}/>
+            <input type="checkbox" checked={task.isDone} onChange={(e) => changeCheckedHandler(e.currentTarget.checked, task.id)}/>
             <span>{task.title}</span>
          </li>
       );
