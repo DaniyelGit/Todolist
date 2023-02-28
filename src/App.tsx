@@ -9,11 +9,22 @@ export type TasksType = {
    title: string
    isDone: boolean
 }
-
+export type TodolistType = {
+   id: string
+   title: string
+   filter: FilterValuesType
+}
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 function App() {
 
+   const todolistID1 = v1();
+   const todolistID2 = v1();
+
+   const [todolists, setTodolists] = useState<Array<TodolistType>>([
+      {id: v1(), title: 'What to learn', filter: 'all'},
+      {id: v1(), title: 'What to buy', filter: 'active'},
+   ])
 
 
    const [tasks, setTasks] = useState<Array<TasksType>>([
@@ -29,8 +40,8 @@ function App() {
       setTasks(tasks.filter(task => task.id !== taskId));
    }
 
-   const changeFilter = (filter: FilterValuesType) => {
-      setFilterTask(filter);
+   const changeFilter = (todoID: string, valueFilter: FilterValuesType) => {
+      setTodolists(todolists.map(tl => tl.id === todoID ? {...tl, filter: valueFilter} : tl));
    };
 
    const addTask = (titleTask: string) => {
@@ -46,24 +57,40 @@ function App() {
 
 
    // filtered tasks
-   let filteredTasks = tasks;
+   /*let filteredTasks = tasks;
    if (filterTask === 'active') {
       filteredTasks = tasks.filter(item => !item.isDone)
    }
    if (filterTask === 'completed') {
       filteredTasks = tasks.filter(item => item.isDone)
-   }
+   }*/
 
    return (
       <div className="App">
-         <Todolist
-            title={'Выучить'}
-            tasks={filteredTasks}
-            removeTask={removeTask}
-            changeFilter={changeFilter}
-            addTask={addTask}
-            changeChecked={changeChecked}
-         />
+         {
+            todolists.map(tl => {
+               let filteredTasks = tasks;
+               if (tl.filter === 'active') {
+                  filteredTasks = tasks.filter(item => !item.isDone)
+               }
+               if (tl.filter === 'completed') {
+                  filteredTasks = tasks.filter(item => item.isDone)
+               }
+               return (
+                  <Todolist
+                     key={tl.id}
+                     todoID={tl.id}
+                     title={tl.title}
+                     tasks={filteredTasks}
+                     removeTask={removeTask}
+                     changeFilter={changeFilter}
+                     addTask={addTask}
+                     changeChecked={changeChecked}
+                  />
+               );
+            })
+         }
+
       </div>
    );
 }

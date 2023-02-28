@@ -5,16 +5,18 @@ import {FilterValuesType, TasksType} from "../../App";
 import {Button} from "../Button";
 
 type TodolistPropsType = {
+   todoID: string
    title: string
    tasks: TasksType[]
    removeTask: (taskId: string) => void
-   changeFilter: (filter: FilterValuesType) => void
+   changeFilter: (todoID: string, valueFilter: FilterValuesType) => void
    addTask: (titleTask: string) => void
    changeChecked: (eventBool: boolean, taskID: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
    const {
+      todoID,
       title,
       tasks,
       changeFilter,
@@ -58,9 +60,9 @@ export const Todolist = (props: TodolistPropsType) => {
       }
    };
 
-   const changeFilterHandler = (filter: FilterValuesType) => {
-      changeFilter(filter);
-      setStyleForBtnFiltered(filter);
+   const changeFilterHandler = (valueFilter: FilterValuesType) => {
+      changeFilter(todoID, valueFilter);
+      setStyleForBtnFiltered(valueFilter);
    }
 
    const mappedTasks = tasks && tasks.map(task => {
