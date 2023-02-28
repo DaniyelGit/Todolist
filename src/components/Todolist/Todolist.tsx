@@ -8,10 +8,10 @@ type TodolistPropsType = {
    todoID: string
    title: string
    tasks: TasksType[]
-   removeTask: (taskId: string) => void
+   removeTask: (todoID: string, taskId: string) => void
    changeFilter: (todoID: string, valueFilter: FilterValuesType) => void
-   addTask: (titleTask: string) => void
-   changeChecked: (eventBool: boolean, taskID: string) => void
+   addTask: (todoID: string, titleTask: string) => void
+   changeChecked: (todoID: string, eventBool: boolean, taskID: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -32,7 +32,7 @@ export const Todolist = (props: TodolistPropsType) => {
 
    const addTaskHandler = () => {
       if (valueInput.trim() !== '') {
-         addTask(valueInput.trim());
+         addTask(todoID, valueInput.trim());
          setValueInput('');
       }
       else {
@@ -47,11 +47,11 @@ export const Todolist = (props: TodolistPropsType) => {
    };
 
    const removeTaskHandler = (taskID: string) => {
-      removeTask(taskID);
+      removeTask(todoID, taskID);
    };
 
    const changeCheckedHandler = (eventBool: boolean, taskID: string) => {
-      changeChecked(eventBool, taskID);
+      changeChecked(todoID, eventBool, taskID);
    };
 
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
