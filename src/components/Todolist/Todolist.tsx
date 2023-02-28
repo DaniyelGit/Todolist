@@ -12,6 +12,7 @@ type TodolistPropsType = {
    changeFilter: (todoID: string, valueFilter: FilterValuesType) => void
    addTask: (todoID: string, titleTask: string) => void
    changeChecked: (todoID: string, eventBool: boolean, taskID: string) => void
+   removeTodolist: (todoID: string) => void
 }
 
 export const Todolist = (props: TodolistPropsType) => {
@@ -23,6 +24,7 @@ export const Todolist = (props: TodolistPropsType) => {
       addTask,
       removeTask,
       changeChecked,
+      removeTodolist,
    } = props;
 
    const [valueInput, setValueInput] = useState<string>('');
@@ -63,7 +65,11 @@ export const Todolist = (props: TodolistPropsType) => {
    const changeFilterHandler = (valueFilter: FilterValuesType) => {
       changeFilter(todoID, valueFilter);
       setStyleForBtnFiltered(valueFilter);
-   }
+   };
+
+   const removeTodolistHandler = () => {
+      removeTodolist(todoID);
+   };
 
    const mappedTasks = tasks && tasks.map(task => {
       return (
@@ -73,11 +79,16 @@ export const Todolist = (props: TodolistPropsType) => {
             <span>{task.title}</span>
          </li>
       );
-   })
+   });
+
+
 
    return (
       <div>
-         <h3>{title}</h3>
+         <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+            <h3>{title}</h3>
+            <Button onClick={removeTodolistHandler}>X</Button>
+         </div>
          <div className={s.wrapper}>
             <input className={error ? s.error : ''} value={valueInput} onChange={changeValueInputHandler} onKeyPress={onKeyPressHandler}/>
             <button onClick={addTaskHandler}>+</button>

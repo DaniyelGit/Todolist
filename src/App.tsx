@@ -15,6 +15,9 @@ export type TodolistType = {
    title: string
    filter: FilterValuesType
 }
+export type TasksStateType = {
+   [key: string]: TasksType[]
+}
 export type FilterValuesType = 'all' | 'active' | 'completed';
 
 function App() {
@@ -27,7 +30,7 @@ function App() {
       {id: todolistID2, title: 'What to buy', filter: 'active'},
    ])
 
-   let [tasks, setTasks] = useState({
+   let [tasks, setTasks] = useState<TasksStateType>({
       [todolistID1]:[
          {id: v1(), title: "HTML&CSS", isDone: true},
          {id: v1(), title: "JS", isDone: true},
@@ -83,6 +86,10 @@ function App() {
       setNewTitleForTodo('');
    }
 
+   const removeTodolist = (todoID: string) => {
+      setTodolists(todolists.filter(tl => tl.id !== todoID));
+      delete tasks[todoID];
+   }
 
    return (
       <div className="App">
@@ -109,6 +116,7 @@ function App() {
                      changeFilter={changeFilter}
                      addTask={addTask}
                      changeChecked={changeChecked}
+                     removeTodolist={removeTodolist}
                   />
                );
             })
