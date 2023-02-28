@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import './App.css';
 
 import {Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
+import {Button} from "./components/Button";
 
 export type TasksType = {
    id: string
@@ -43,6 +44,8 @@ function App() {
       ]
    });
 
+   const [newTitleForTodo, setNewTitleForTodo] = useState<string>('');
+
 
    const removeTask = (todoID: string, taskId: string) => {
       setTasks({...tasks, [todoID]: tasks[todoID].filter(t => t.id !== taskId)});
@@ -68,9 +71,25 @@ function App() {
       })
    };
 
+   const changeNewTitleTodo = (e: ChangeEvent<HTMLInputElement>) => {
+      setNewTitleForTodo(e.currentTarget.value);
+   }
+
+   const addedTodolist = () => {
+      const newTodoID = v1();
+      const newTodolist: TodolistType = {id: newTodoID, title: newTitleForTodo, filter: 'all'}
+      setTodolists([newTodolist, ...todolists]);
+      setTasks({...tasks, [newTodoID]: []});
+      setNewTitleForTodo('');
+   }
+
 
    return (
       <div className="App">
+         <div>
+            <input type="text" value={newTitleForTodo} onChange={changeNewTitleTodo}/>
+            <Button onClick={addedTodolist}>add todolist</Button>
+         </div>
          {
             todolists.map(tl => {
                let filteredTasks = tasks[tl.id];
