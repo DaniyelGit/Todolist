@@ -29,8 +29,7 @@ function App() {
       {id: todolistID1, title: 'What to learn', filter: 'all'},
       {id: todolistID2, title: 'What to buy', filter: 'active'},
    ])
-
-   let [tasks, setTasks] = useState<TasksStateType>({
+   const [tasks, setTasks] = useState<TasksStateType>({
       [todolistID1]: [
          {id: v1(), title: "HTML&CSS", isDone: true},
          {id: v1(), title: "JS", isDone: true},
@@ -47,23 +46,19 @@ function App() {
       ]
    });
 
-
    const removeTask = (todoID: string, taskId: string) => {
       setTasks({...tasks, [todoID]: tasks[todoID].filter(t => t.id !== taskId)});
    }
-
    const changeFilter = (todoID: string, valueFilter: FilterValuesType) => {
       setTodolists(todolists.map(tl => tl.id === todoID
          ? {...tl, filter: valueFilter}
          : tl)
       );
    };
-
    const addTask = (todoID: string, titleTask: string) => {
       const newTask = {id: v1(), title: titleTask, isDone: false};
       setTasks({...tasks, [todoID]: [newTask, ...tasks[todoID]]});
    };
-
    const changeChecked = (todoID: string, eventBool: boolean, taskID: string) => {
       setTasks({
          ...tasks,
@@ -72,17 +67,19 @@ function App() {
             : t)
       })
    };
-
    const addTodolist = (titleValue: string) => {
       const newTodoID = v1();
       const newTodolist: TodolistType = {id: newTodoID, title: titleValue, filter: 'all'}
       setTodolists([newTodolist, ...todolists]);
       setTasks({...tasks, [newTodoID]: []});
    }
-
    const removeTodolist = (todoID: string) => {
       setTodolists(todolists.filter(tl => tl.id !== todoID));
       delete tasks[todoID];
+   }
+
+   const updateTitleTask = (todoID: string, taskID: string, newTitleTask: string) => {
+      setTasks({...tasks, [todoID]: tasks[todoID].map(t => t.id === taskID ? {...t, title: newTitleTask} : t)});
    }
 
    return (
@@ -110,6 +107,7 @@ function App() {
                      addTask={addTask}
                      changeChecked={changeChecked}
                      removeTodolist={removeTodolist}
+                     updateTitleTask={updateTitleTask}
                   />
                );
             })
