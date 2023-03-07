@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, ReactNode} from 'react';
 
 type EditableSpanPropsType = {
    oldTitle: string
@@ -28,7 +28,6 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
          editHandler();
       }
    }
-
 
    return (
       edit

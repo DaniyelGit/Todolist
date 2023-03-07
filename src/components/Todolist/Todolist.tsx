@@ -15,6 +15,7 @@ type TodolistPropsType = {
    addTask: (todoID: string, titleTask: string) => void
    changeChecked: (todoID: string, eventBool: boolean, taskID: string) => void
    removeTodolist: (todoID: string) => void
+   updateTitleTodolist: (todoID: string, newTitleTodo: string) => void
    updateTitleTask: (todoID: string, taskID: string, newTitleTask: string) => void
 }
 
@@ -28,7 +29,8 @@ export const Todolist = (props: TodolistPropsType) => {
       removeTask,
       changeChecked,
       removeTodolist,
-      updateTitleTask
+      updateTitleTask,
+      updateTitleTodolist
    } = props;
 
    const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>('all')
@@ -39,6 +41,10 @@ export const Todolist = (props: TodolistPropsType) => {
 
    const updateTitleTaskHandler = (taskID: string, newTitle: string) => {
       updateTitleTask(todoID, taskID, newTitle);
+   }
+
+   const updateTitleTodoHandler = (newTitleTodo: string) => {
+      updateTitleTodolist(todoID, newTitleTodo);
    }
 
    const addTaskHandler = (titleValue: string) => {
@@ -72,7 +78,12 @@ export const Todolist = (props: TodolistPropsType) => {
    return (
       <div>
          <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-            <h3>{title}</h3>
+            <h3>
+               <EditableSpan
+                  oldTitle={title}
+                  callBack={updateTitleTodoHandler}
+               />
+            </h3>
             <Button onClick={removeTodolistHandler}>X</Button>
          </div>
          <div className={s.wrapper}>
