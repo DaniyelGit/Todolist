@@ -3,6 +3,7 @@ import s from './Todolist.module.css';
 
 import {FilterValuesType, TasksType} from "../../App";
 import {Button} from "../Button";
+import {AddItemForm} from "../AddItemForm/AddItemForm";
 
 type TodolistPropsType = {
    todoID: string
@@ -27,39 +28,18 @@ export const Todolist = (props: TodolistPropsType) => {
       removeTodolist,
    } = props;
 
-   const [valueInput, setValueInput] = useState<string>('');
-   const [error, setError] = useState<string | null>(null);
-
    const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>('all')
-
-   const addTaskHandler = () => {
-      if (valueInput.trim() !== '') {
-         addTask(todoID, valueInput.trim());
-         setValueInput('');
-      }
-      else {
-         setError('Title is reqired');
-      }
-   };
-
-   const changeValueInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
-      setValueInput(e.currentTarget.value);
-
-      error && setError(null);
-   };
 
    const removeTaskHandler = (taskID: string) => {
       removeTask(todoID, taskID);
    };
 
+   const addTaskHandler = (titleValue: string) => {
+      addTask(todoID, titleValue);
+   }
+
    const changeCheckedHandler = (eventBool: boolean, taskID: string) => {
       changeChecked(todoID, eventBool, taskID);
-   };
-
-   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
-         addTaskHandler()
-      }
    };
 
    const changeFilterHandler = (valueFilter: FilterValuesType) => {
@@ -82,7 +62,6 @@ export const Todolist = (props: TodolistPropsType) => {
    });
 
 
-
    return (
       <div>
          <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
@@ -90,11 +69,7 @@ export const Todolist = (props: TodolistPropsType) => {
             <Button onClick={removeTodolistHandler}>X</Button>
          </div>
          <div className={s.wrapper}>
-            <input className={error ? s.error : ''} value={valueInput} onChange={changeValueInputHandler} onKeyPress={onKeyPressHandler}/>
-            <button onClick={addTaskHandler}>+</button>
-            {
-               error &&  <div className={s.errorMessage}>{error}</div>
-            }
+            <AddItemForm addItem={addTaskHandler}/>
          </div>
          <ul>
             {mappedTasks}
