@@ -6,6 +6,7 @@ import {Button} from "../Button";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 
+
 type TodolistPropsType = {
    todoID: string
    title: string
@@ -68,12 +69,13 @@ export const Todolist = (props: TodolistPropsType) => {
       return (
          <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
             <button onClick={() => removeTaskHandler(task.id)}>x</button>
-            <input type="checkbox" checked={task.isDone} onChange={(e) => changeCheckedHandler(e.currentTarget.checked, task.id)}/>
-            <EditableSpan oldTitle={task.title} callBack={(newTitle: string) => updateTitleTaskHandler(task.id, newTitle)}/>
+            <input type="checkbox" checked={task.isDone}
+                   onChange={(e) => changeCheckedHandler(e.currentTarget.checked, task.id)}/>
+            <EditableSpan oldTitle={task.title}
+                          callBack={(newTitle: string) => updateTitleTaskHandler(task.id, newTitle)}/>
          </li>
       );
    });
-
 
    return (
       <div>
@@ -84,7 +86,11 @@ export const Todolist = (props: TodolistPropsType) => {
                   callBack={updateTitleTodoHandler}
                />
             </h3>
-            <Button onClick={removeTodolistHandler}>X</Button>
+            <Button
+               onClick={removeTodolistHandler}
+            >
+               X
+            </Button>
          </div>
          <div className={s.wrapper}>
             <AddItemForm addItem={addTaskHandler}/>
@@ -92,10 +98,23 @@ export const Todolist = (props: TodolistPropsType) => {
          <ul>
             {mappedTasks}
          </ul>
-         <div>
-            <Button className={styleForBtnFiltered === 'all' ? s.activeFilter : ''} onClick={() => changeFilterHandler('all')}>all</Button>
-            <Button className={styleForBtnFiltered === 'active' ? s.activeFilter : ''} onClick={() => changeFilterHandler('active')}>active</Button>
-            <Button className={styleForBtnFiltered === 'completed' ? s.activeFilter : ''} onClick={() => changeFilterHandler('completed')}>completed</Button>
+         <div style={{display: 'flex', gap: '5px'}}>
+            <Button className={styleForBtnFiltered === 'all' ? s.activeFilter : ''}
+                    onClick={() => changeFilterHandler('all')}
+            >
+               all
+            </Button
+                    >
+            <Button className={styleForBtnFiltered === 'active' ? s.activeFilter : ''}
+                    onClick={() => changeFilterHandler('active')}
+            >
+               active
+            </Button>
+            <Button className={styleForBtnFiltered === 'completed' ? s.activeFilter : ''}
+                    onClick={() => changeFilterHandler('completed')}
+            >
+               completed
+            </Button>
          </div>
       </div>
    );
