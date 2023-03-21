@@ -16,7 +16,7 @@ type TodolistPropsType = {
    removeTask: (todoID: string, taskId: string) => void
    changeFilter: (todoID: string, valueFilter: FilterValuesType) => void
    addTask: (todoID: string, titleTask: string) => void
-   changeChecked: (todoID: string, eventBool: boolean, taskID: string) => void
+   changeStatusTask: (todoID: string, taskID: string, eventBool: boolean) => void
    removeTodolist: (todoID: string) => void
    updateTitleTodolist: (todoID: string, newTitleTodo: string) => void
    updateTitleTask: (todoID: string, taskID: string, newTitleTask: string) => void
@@ -31,7 +31,7 @@ export const Todolist = (props: TodolistPropsType) => {
       changeFilter,
       addTask,
       removeTask,
-      changeChecked,
+      changeStatusTask,
       removeTodolist,
       updateTitleTask,
       updateTitleTodolist
@@ -55,8 +55,8 @@ export const Todolist = (props: TodolistPropsType) => {
       addTask(todoID, titleValue);
    }
 
-   const changeStatusHandler = (eventBool: boolean, taskID: string) => {
-      changeChecked(todoID, eventBool, taskID);
+   const changeStatusHandler = (taskID: string, eventBool: boolean ) => {
+      changeStatusTask(todoID, taskID, eventBool);
    };
 
    const changeFilterHandler = (valueFilter: FilterValuesType) => {
@@ -72,7 +72,7 @@ export const Todolist = (props: TodolistPropsType) => {
       return (
          <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
             <button onClick={() => removeTaskHandler(task.id)}>x</button>
-            <CheckBox checked={task.isDone} changeChecked={(isDone: boolean) => changeStatusHandler(isDone, task.id)}/>
+            <CheckBox checked={task.isDone} changeChecked={(isDone: boolean) => changeStatusHandler(task.id, isDone)}/>
             <EditableSpan oldTitle={task.title}
                           callBack={(newTitle: string) => updateTitleTaskHandler(task.id, newTitle)}/>
          </li>

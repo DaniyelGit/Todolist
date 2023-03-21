@@ -59,7 +59,7 @@ function App() {
       const newTask = {id: v1(), title: titleTask, isDone: false};
       setTasks({...tasks, [todoID]: [newTask, ...tasks[todoID]]});
    };
-   const changeChecked = (todoID: string, eventBool: boolean, taskID: string) => {
+   const changeStatusTask = (todoID: string, taskID: string, eventBool: boolean) => {
       setTasks({
          ...tasks,
          [todoID]: tasks[todoID].map(t => t.id === taskID
@@ -108,7 +108,7 @@ function App() {
                      removeTask={removeTask}
                      changeFilter={changeFilter}
                      addTask={addTask}
-                     changeChecked={changeChecked}
+                     changeStatusTask={changeStatusTask}
                      removeTodolist={removeTodolist}
                      updateTitleTask={updateTitleTask}
                      updateTitleTodolist={updateTitleTodolist}
