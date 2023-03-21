@@ -104,6 +104,7 @@ function App() {
                      todoID={tl.id}
                      title={tl.title}
                      tasks={filteredTasks}
+                     filter={tl.filter}
                      removeTask={removeTask}
                      changeFilter={changeFilter}
                      addTask={addTask}

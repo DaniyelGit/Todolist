@@ -5,12 +5,14 @@ import {FilterValuesType, TasksType} from "../../App";
 import {Button} from "../Button";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
+import {CheckBox} from "../CheckBox/CheckBox";
 
 
 type TodolistPropsType = {
    todoID: string
    title: string
    tasks: TasksType[]
+   filter: FilterValuesType
    removeTask: (todoID: string, taskId: string) => void
    changeFilter: (todoID: string, valueFilter: FilterValuesType) => void
    addTask: (todoID: string, titleTask: string) => void
@@ -25,6 +27,7 @@ export const Todolist = (props: TodolistPropsType) => {
       todoID,
       title,
       tasks,
+      filter,
       changeFilter,
       addTask,
       removeTask,
@@ -34,7 +37,7 @@ export const Todolist = (props: TodolistPropsType) => {
       updateTitleTodolist
    } = props;
 
-   const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>('all')
+   const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>(filter)
 
    const removeTaskHandler = (taskID: string) => {
       removeTask(todoID, taskID);
@@ -52,7 +55,7 @@ export const Todolist = (props: TodolistPropsType) => {
       addTask(todoID, titleValue);
    }
 
-   const changeCheckedHandler = (eventBool: boolean, taskID: string) => {
+   const changeStatusHandler = (eventBool: boolean, taskID: string) => {
       changeChecked(todoID, eventBool, taskID);
    };
 
@@ -69,8 +72,7 @@ export const Todolist = (props: TodolistPropsType) => {
       return (
          <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
             <button onClick={() => removeTaskHandler(task.id)}>x</button>
-            <input type="checkbox" checked={task.isDone}
-                   onChange={(e) => changeCheckedHandler(e.currentTarget.checked, task.id)}/>
+            <CheckBox checked={task.isDone} changeChecked={(isDone: boolean) => changeStatusHandler(isDone, task.id)}/>
             <EditableSpan oldTitle={task.title}
                           callBack={(newTitle: string) => updateTitleTaskHandler(task.id, newTitle)}/>
          </li>
