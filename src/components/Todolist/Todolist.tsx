@@ -71,7 +71,7 @@ export const Todolist = (props: TodolistPropsType) => {
    const mappedTasks = tasks && tasks.map(task => {
       return (
          <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
-            <button onClick={() => removeTaskHandler(task.id)}>x</button>
+            <Button onClick={() => removeTaskHandler(task.id)}>x</Button>
             <CheckBox checked={task.isDone} changeChecked={(isDone: boolean) => changeStatusHandler(task.id, isDone)}/>
             <EditableSpan oldTitle={task.title}
                           callBack={(newTitle: string) => updateTitleTaskHandler(task.id, newTitle)}/>
