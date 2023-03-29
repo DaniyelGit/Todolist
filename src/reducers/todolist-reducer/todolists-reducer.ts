@@ -40,7 +40,7 @@ type ActionsType = removeTodoActionType
 type changeFilterTodoActionType = ReturnType<typeof changeFilterTodoAC>;
 type changeTodoTitleActionType = ReturnType<typeof changeTodoTitleAC>;
 export type addTodoActionType = ReturnType<typeof addTodoAC>;
-type removeTodoActionType = ReturnType<typeof removeTodoAC>;
+export type removeTodoActionType = ReturnType<typeof removeTodoAC>;
 
 export const removeTodoAC = (id: string) => {
    return {
@@ -73,4 +73,5 @@ export const changeFilterTodoAC = (id: string, valueFilter: FilterValuesType) =>
       }
    } as const
 }
+
 
