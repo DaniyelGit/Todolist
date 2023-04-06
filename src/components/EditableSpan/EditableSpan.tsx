@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, ReactNode} from 'react';
+import React, {ChangeEvent, KeyboardEvent} from 'react';
 
 type EditableSpanPropsType = {
    oldTitle: string
