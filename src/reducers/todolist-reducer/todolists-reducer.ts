@@ -31,7 +31,7 @@ export const TodolistReducer = (state: TodolistType[], action: ActionsType): Tod
 }
 
 
-type ActionsType = removeTodoActionType
+export type ActionsType = removeTodoActionType
    | addTodoActionType
    | changeTodoTitleActionType
    | changeFilterTodoActionType;

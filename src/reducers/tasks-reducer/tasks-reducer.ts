@@ -50,7 +50,7 @@ export const TasksReducer = (state: TasksStateType, action: ActionsTypes): Tasks
    }
 }
 
-type ActionsTypes = removeTaskActionType
+export type ActionsTypes = removeTaskActionType
    | addTaskActionType
    | changeTaskStatusActionType
    | changeTaskTitleActionType
