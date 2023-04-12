@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.css';
-
 import {Todolist} from "./components/Todolist/Todolist";
-import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {
    addTodoAC,
