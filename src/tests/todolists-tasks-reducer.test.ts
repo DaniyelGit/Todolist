@@ -1,11 +1,11 @@
-import {TasksStateType, TodolistType} from "../App";
-import {addTodoAC, removeTodoAC, TodolistReducer} from "../redux/reducers/todolists-reducer";
-import {TasksReducer} from "../redux/reducers/tasks-reducer";
+import {TasksReducer, TasksStateType} from "../redux/reducers/tasks-reducer";
+import {addTodoAC, removeTodoAC} from "../redux/actions/actionsTodolists";
+import {TodolistReducer, TodolistType} from "../redux/reducers/todolists-reducer";
 
 
 test('ids should be equals', () => {
    const startTasksState: TasksStateType = {}
-   const startTodolistState: Array<TodolistType> = []
+   const startTodolistState: TodolistType[] = []
 
    const action = addTodoAC('new todolist')
 
@@ -34,7 +34,7 @@ test('correct todolist and state tasks should be removed', () => {
          {id: '3', title: 'tea', isDone: false}
       ]
    }
-   const startTodolistState: Array<TodolistType> = [
+   const startTodolistState: TodolistType[] = [
       {id: 'todolistId1', title: 'todo-1', filter: 'all'},
       {id: 'todolistId2', title: 'todo-2', filter: 'all'},
    ]

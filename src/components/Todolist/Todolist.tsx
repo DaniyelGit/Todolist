@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import s from './Todolist.module.css';
 
-import {FilterValuesType, TasksType} from "../../App";
+
 import {Button} from "../Button";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {CheckBox} from "../CheckBox/CheckBox";
+import {FilterValuesType} from "../../redux/reducers/todolists-reducer";
+import {TasksType} from "../../redux/reducers/tasks-reducer";
 
 
 type TodolistPropsType = {
