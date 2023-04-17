@@ -1,11 +1,11 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, memo} from 'react';
 
 type CheckBoxPropsType = {
    checked: boolean
    changeChecked: (isDone: boolean) => void
 }
 
-export const CheckBox = (props: CheckBoxPropsType) => {
+export const CheckBox = memo((props: CheckBoxPropsType) => {
    const {
       checked,
       changeChecked,
@@ -18,4 +18,4 @@ export const CheckBox = (props: CheckBoxPropsType) => {
    return (
       <input type="checkbox" checked={checked} onChange={onChangeHandler}/>
    );
-};
+});

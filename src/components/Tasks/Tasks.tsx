@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import s from "../Todolist/Todolist.module.css";
 import {Button} from "../Button";
 import {CheckBox} from "../CheckBox/CheckBox";
@@ -13,7 +13,7 @@ type TasksPropsType = {
    changeTaskTitle: (taskID: string, newTitle: string) => void
 }
 
-export const Tasks = (props: TasksPropsType) => {
+export const Tasks = memo((props: TasksPropsType) => {
    const {
       task,
       removeTask,
@@ -21,17 +21,17 @@ export const Tasks = (props: TasksPropsType) => {
       changeTaskTitle
    } = props;
 
-   const removeTaskHandler = () => {
+   const removeTaskHandler = useCallback(() => {
       removeTask(task.id);
-   }
+   }, [removeTask, task.id]);
 
-   const changeCheckedHandler = (isChecked: boolean) => {
+   const changeCheckedHandler = useCallback((isChecked: boolean) => {
       changeStatusTask(task.id, isChecked);
-   }
+   }, [changeStatusTask, task.id])
 
-   const updateTitleTaskHandler = (newTitle: string) => {
+   const updateTitleTaskHandler = useCallback((newTitle: string) => {
       changeTaskTitle(task.id, newTitle);
-   }
+   }, [changeTaskTitle, task.id])
 
 
    return (
@@ -41,4 +41,4 @@ export const Tasks = (props: TasksPropsType) => {
          <EditableSpan oldTitle={task.title} callBack={updateTitleTaskHandler}/>
       </li>
    );
-};
+});

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {memo, useCallback, useState} from "react";
 import s from './Todolist.module.css';
 import {Button} from "../Button";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
@@ -16,7 +16,7 @@ type TodolistPropsType = {
    todolist: TodolistType
 }
 
-export const Todolist = (props: TodolistPropsType) => {
+export const Todolist = memo((props: TodolistPropsType) => {
    const {
       todolist,
    } = props;
@@ -28,34 +28,36 @@ export const Todolist = (props: TodolistPropsType) => {
 
    const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>(filter);
 
-   const removeTask = (taskID: string) => {
+   const removeTask = useCallback((taskID: string) => {
       dispatch(removeTaskAC(id, taskID));
-   };
+   }, [id]);
 
-   const changeTaskTitle = (taskID: string, newTitle: string) => {
+   const changeTaskTitle = useCallback((taskID: string, newTitle: string) => {
       dispatch(changeTaskTitleAC(id, taskID, newTitle));
-   }
+   }, [id]);
 
-   const changeTodolistTitle = (newTitleTodolist: string) => {
+   const changeTodolistTitle = useCallback((newTitleTodolist: string) => {
       dispatch(changeTodoTitleAC(id, newTitleTodolist));
-   }
+   }, [id])
 
-   const addTask = (title: string) => {
+   const addTask = useCallback((title: string) => {
       dispatch(addTaskAC(id, title));
-   }
+   }, [id]);
 
-   const changeStatusTask = (taskID: string, eventBool: boolean) => {
+   const changeStatusTask = useCallback((taskID: string, eventBool: boolean) => {
       dispatch(changeTaskStatusAC(id, taskID, eventBool));
-   };
+   }, [id]);
 
-   const changeFilter = (valueFilter: FilterValuesType) => {
+
+   // ?????
+   const changeFilter = useCallback((valueFilter: FilterValuesType) => {
       dispatch(changeFilterTodoAC(id, valueFilter));
       setStyleForBtnFiltered(valueFilter);
-   };
-
-   const removeTodolist = () => {
+   }, [id]);
+   // ?????
+   const removeTodolist = useCallback(() => {
       dispatch(removeTodoAC(id));
-   };
+   }, [id]);
 
    if (filter === 'active') {
       tasks = tasks.filter(item => !item.isDone)
@@ -113,4 +115,4 @@ export const Todolist = (props: TodolistPropsType) => {
          </div>
       </div>
    );
-}
+});

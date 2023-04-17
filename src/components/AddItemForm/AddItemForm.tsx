@@ -1,11 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import s from "../Todolist/Todolist.module.css";
 
 type AddItemFormPropsType = {
    addItem: (titleValue: string) => void
 }
 
-export const AddItemForm = (props: AddItemFormPropsType) => {
+export const AddItemForm = memo((props: AddItemFormPropsType) => {
 
    const {
       addItem
@@ -48,4 +48,4 @@ export const AddItemForm = (props: AddItemFormPropsType) => {
          }
       </>
    );
-};
+});

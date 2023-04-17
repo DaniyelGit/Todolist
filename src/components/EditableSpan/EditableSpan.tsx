@@ -1,11 +1,11 @@
-import React, {ChangeEvent, KeyboardEvent} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo} from 'react';
 
 type EditableSpanPropsType = {
    oldTitle: string
    callBack: (newTitle: string) => void
 }
 
-export const EditableSpan = (props: EditableSpanPropsType) => {
+export const EditableSpan = memo((props: EditableSpanPropsType) => {
    const {
       oldTitle,
       callBack,
@@ -40,4 +40,4 @@ export const EditableSpan = (props: EditableSpanPropsType) => {
          />
          : <span onDoubleClick={editHandler}>{oldTitle}</span>
    );
-};
+});
