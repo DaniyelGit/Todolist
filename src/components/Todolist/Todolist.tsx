@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useState} from "react";
+import React, {memo, useCallback, useMemo, useState} from "react";
 import s from './Todolist.module.css';
 import {Button} from "../Button";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
@@ -53,7 +53,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    const changeFilter = useCallback((valueFilter: FilterValuesType) => {
       dispatch(changeFilterTodoAC(id, valueFilter));
       setStyleForBtnFiltered(valueFilter);
-   }, [id]);
+   }, [id, filter]);
    // ?????
    const removeTodolist = useCallback(() => {
       dispatch(removeTodoAC(id));
