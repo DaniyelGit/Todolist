@@ -26,8 +26,6 @@ export const Todolist = memo((props: TodolistPropsType) => {
    let tasks = useSelector<AppRootStateType, TasksType[]>(state => state.tasks[id]);
    const dispatch = useDispatch();
 
-   const [styleForBtnFiltered, setStyleForBtnFiltered] = useState<FilterValuesType>(filter);
-
    const removeTask = useCallback((taskID: string) => {
       dispatch(removeTaskAC(id, taskID));
    }, [id]);
@@ -52,7 +50,6 @@ export const Todolist = memo((props: TodolistPropsType) => {
    // ?????
    const changeFilter = useCallback((valueFilter: FilterValuesType) => {
       dispatch(changeFilterTodoAC(id, valueFilter));
-      setStyleForBtnFiltered(valueFilter);
    }, [id, filter]);
    // ?????
    const removeTodolist = useCallback(() => {
@@ -96,18 +93,18 @@ export const Todolist = memo((props: TodolistPropsType) => {
             {mappedTasks}
          </ul>
          <div style={{display: 'flex', gap: '5px'}}>
-            <Button className={styleForBtnFiltered === 'all' ? s.activeFilter : ''}
+            <Button className={filter === 'all' ? s.activeFilter : ''}
                     onClick={() => changeFilter('all')}
             >
                all
             </Button
             >
-            <Button className={styleForBtnFiltered === 'active' ? s.activeFilter : ''}
+            <Button className={filter === 'active' ? s.activeFilter : ''}
                     onClick={() => changeFilter('active')}
             >
                active
             </Button>
-            <Button className={styleForBtnFiltered === 'completed' ? s.activeFilter : ''}
+            <Button className={filter === 'completed' ? s.activeFilter : ''}
                     onClick={() => changeFilter('completed')}
             >
                completed
