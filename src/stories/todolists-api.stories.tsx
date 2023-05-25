@@ -1,18 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import axios from 'axios';
 import {todolistsAPI} from "../api/todolists-api";
 
 export default {
    title: 'API'
-}
-
-
-
-const settings = {
-   withCredentials: true,
-   headers: {
-      "API-KEY": "94c26306-e433-431b-b042-de5fa1af00f0",
-   }
 }
 
 export const GetTodolists = () => {
