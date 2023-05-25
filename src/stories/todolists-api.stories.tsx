@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {todolistsAPI} from "../api/todolists-api";
 
 export default {
    title: 'API'
 }
 
-const todolistAPI = axios.create({
-   baseURL: 'https://social-network.samuraijs.com/api/1.1',
-   withCredentials: true,
-   headers: {
-      "API-KEY": "94c26306-e433-431b-b042-de5fa1af00f0",
-   }
-})
+
 
 const settings = {
    withCredentials: true,
@@ -23,10 +18,8 @@ const settings = {
 export const GetTodolists = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      axios.get("https://social-network.samuraijs.com/api/1.1/todo-lists", settings)
-         .then(res => {
-            setState(res.data);
-         })
+      todolistsAPI.getTodolists()
+         .then(res => setState(res.data))
    }, [])
    return <div>{JSON.stringify(state)}</div>
 };
@@ -34,7 +27,7 @@ export const GetTodolists = () => {
 export const CreateTodolist = () => {
    const [state, setState] = useState<any>(null)
    useEffect(() => {
-      axios.post("https://social-network.samuraijs.com/api/1.1/todo-lists", {title: 'Выучить'}, settings)
+      todolistsAPI.createTodolist('Пересмотреть')
          .then(res => {
             setState(res.data);
          })
@@ -45,9 +38,9 @@ export const CreateTodolist = () => {
 
 export const DeleteTodolist = () => {
    const [state, setState] = useState<any>(null)
-   const id = '3b3c7e5c-232e-4382-8ecd-81ec3ab106e9';
+   const id = 'bda97305-de75-4719-b53e-bc53814e704b';
    useEffect(() => {
-      axios.delete(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, settings)
+      todolistsAPI.deleteTodolist(id)
          .then(res => {
             setState(res.data);
          })
@@ -60,7 +53,7 @@ export const UpdateTodolistTitle = () => {
    const [state, setState] = useState<any>(null)
    const id = '489dc31e-c706-4406-beaa-4b00293c90e0';
    useEffect(() => {
-      axios.put(`https://social-network.samuraijs.com/api/1.1/todo-lists/${id}`, {title: 'Запомнить'}, settings)
+      todolistsAPI.updateTodolistTitle(id, 'Пересмотреть')
          .then(res => {
             setState(res.data);
          })
