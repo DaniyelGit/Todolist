@@ -47,11 +47,10 @@ export const Todolist = memo((props: TodolistPropsType) => {
    }, [id]);
 
 
-   // ?????
    const changeFilter = useCallback((valueFilter: FilterValuesType) => {
       dispatch(changeFilterTodoAC(id, valueFilter));
    }, [id, filter]);
-   // ?????
+
    const removeTodolist = useCallback(() => {
       dispatch(removeTodoAC(id));
    }, [id]);
