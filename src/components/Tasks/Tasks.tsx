@@ -1,15 +1,15 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import s from "../Todolist/Todolist.module.css";
 import {Button} from "../Button";
 import {CheckBox} from "../CheckBox/CheckBox";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {TasksType} from "../../redux/reducers/tasks-reducer";
+import {TaskStatuses, TaskType} from "../../api/todolists-api";
 
 
 type TasksPropsType = {
-   task: TasksType
+   task: TaskType
    removeTask: (taskId: string) => void
-   changeStatusTask: (taskID: string, eventBool: boolean) => void
+   changeStatusTask: (taskID: string, status: TaskStatuses) => void
    changeTaskTitle: (taskID: string, newTitle: string) => void
 }
 
@@ -25,8 +25,8 @@ export const Tasks = memo((props: TasksPropsType) => {
       removeTask(task.id);
    }, [removeTask, task.id]);
 
-   const changeCheckedHandler = useCallback((isChecked: boolean) => {
-      changeStatusTask(task.id, isChecked);
+   const changeStatusTaskHandler = useCallback((status: TaskStatuses) => {
+      changeStatusTask(task.id, status);
    }, [changeStatusTask, task.id])
 
    const updateTitleTaskHandler = useCallback((newTitle: string) => {
@@ -35,9 +35,9 @@ export const Tasks = memo((props: TasksPropsType) => {
 
 
    return (
-      <li key={task.id} className={task.isDone ? s.taskIsDone : ''}>
+      <li key={task.id} className={task.status === TaskStatuses.Completed ? s.taskIsDone : ''}>
          <Button onClick={removeTaskHandler}>x</Button>
-         <CheckBox checked={task.isDone} changeChecked={changeCheckedHandler}/>
+         <CheckBox checked={task.status} changeStatusTaskHandler={changeStatusTaskHandler}/>
          <EditableSpan oldTitle={task.title} callBack={updateTitleTaskHandler}/>
       </li>
    );

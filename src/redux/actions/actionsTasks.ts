@@ -1,4 +1,5 @@
 import {addTodoActionType, removeTodoActionType} from "./actionsTodolists";
+import {TaskStatuses} from "../../api/todolists-api";
 
 
 export enum ACTIONS_TASKS {
@@ -36,12 +37,12 @@ export const addTaskAC = (todoID: string, title: string) => {
       title,
    } as const;
 };
-export const changeTaskStatusAC = (todoID: string, taskID: string, isDone: boolean) => {
+export const changeTaskStatusAC = (todoID: string, taskID: string, status: TaskStatuses) => {
    return {
       type: ACTIONS_TASKS.CHANGE_TASK_STATUS,
       todoID,
       taskID,
-      isDone,
+      status,
    } as const;
 };
 export const changeTaskTitleAC = (todoID: string, taskID: string, newTitle: string) => {

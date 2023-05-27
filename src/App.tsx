@@ -7,11 +7,11 @@ import {
 } from "./redux/actions/actionsTodolists";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
-import {TodolistType} from "./redux/reducers/todolists-reducer";
+import {TodolistDomainType} from "./redux/reducers/todolists-reducer";
 
 
 export const App = () => {
-   let todolists = useSelector<AppRootStateType, TodolistType[]>((state) => state.todolists);
+   let todolists = useSelector<AppRootStateType, TodolistDomainType[]>((state) => state.todolists);
 
    const dispatch = useDispatch();
 
