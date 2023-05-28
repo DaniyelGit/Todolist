@@ -56,18 +56,18 @@ export enum TaskPriorities {
 export type TodolistType = {
    id: string
    title: string
-   addedDate: Date,
+   addedDate: string,
    order: number
 };
 
 export type TaskType = {
-   addedDate: Date
-   deadline: Date
+   addedDate: string
+   deadline: string
    description: string
    id: string
    order: number
    priority: TaskPriorities
-   startDate: Date
+   startDate: string
    status: TaskStatuses
    title: string
    todoListId: string
@@ -78,7 +78,7 @@ type UpdateTaskModalType = {
    description: string
    status: number
    priority: number
-   startDate: Date
+   startDate: string
    deadline: string
 };
 

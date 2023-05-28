@@ -27,47 +27,47 @@ test('correct todolist and state tasks should be removed', () => {
       'todolistId1': [
          {
             id: '1', title: 'CSS', status: TaskStatuses.New,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
             id: '2', title: 'JS', status: TaskStatuses.Completed,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
             id: '3', title: 'React', status: TaskStatuses.New,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
       ],
       'todolistId2': [
          {
             id: '1', title: 'bread', status: TaskStatuses.New,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
             id: '2', title: 'milk', status: TaskStatuses.New,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
             id: '3', title: 'tea', status: TaskStatuses.Completed,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
-            todoListId: 'todolistId1'
-         },
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
+            todoListId: 'todolistId1',
+         }
       ]
    }
    const startTodolistState: TodolistDomainType[] = [
-      {id: 'todolistId1', title: 'todo-1', filter: 'all', order: 0, addedDate: new Date()},
-      {id: 'todolistId2', title: 'todo-2', filter: 'all', order: 0, addedDate: new Date()},
+      {id: 'todolistId1', title: 'todo-1', filter: 'all', order: 0, addedDate: ''},
+      {id: 'todolistId2', title: 'todo-2', filter: 'all', order: 0, addedDate: ''},
    ]
 
    const action = removeTodoAC('todolistId2')

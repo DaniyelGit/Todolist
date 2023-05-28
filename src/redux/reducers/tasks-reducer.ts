@@ -20,8 +20,8 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
       case ACTIONS_TASKS.ADD_TASK: {
          const newTask: TaskType = {
             id: v1(), title: action.title, status: TaskStatuses.New,
-            todoListId: action.todoID, addedDate: new Date(), deadline: new Date(),
-            description: '', order: 0, startDate: new Date(), priority: TaskPriorities.Low
+            todoListId: action.todoID, addedDate: '', deadline: '',
+            description: '', order: 0, startDate: '', priority: TaskPriorities.Low
          };
          return  {
             ...state,

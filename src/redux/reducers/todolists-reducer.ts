@@ -20,7 +20,7 @@ export const TodolistReducer = (state: TodolistDomainType[] = initialStateTodoli
          const newTodolist: TodolistDomainType = {
             ...action.payload,
             filter: 'all',
-            addedDate: new Date(),
+            addedDate: '',
             order: 0
          }
          return [newTodolist, ...state];

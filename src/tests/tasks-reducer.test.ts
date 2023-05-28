@@ -10,41 +10,41 @@ beforeEach(() => {
       'todolistId1': [
          {
             id: '1', title: 'CSS', status: 0,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
-            id: '2', title: 'JS', status: 1,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            id: '2', title: 'JS', status: 2,
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
             id: '3', title: 'React', status: 0,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
       ],
       'todolistId2': [
          {
             id: '1', title: 'bread', status: 0,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
-            todoListId: 'todolistId1'
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
+            todoListId: 'todolistId2'
          },
          {
-            id: '2', title: 'milk', status: 0,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
-            todoListId: 'todolistId1'
+            id: '2', title: 'milk', status: 2,
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
+            todoListId: 'todolistId2'
          },
          {
             id: '3', title: 'tea', status: 1,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
-            todoListId: 'todolistId1'
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
+            todoListId: 'todolistId2'
          },
       ]
    }
@@ -59,35 +59,35 @@ test('correct task should be deleted from correct array', () => {
       'todolistId1': [
          {
             id: '1', title: 'CSS', status: 0,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
-            id: '2', title: 'JS', status: 1,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            id: '2', title: 'JS', status: 2,
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
          {
             id: '3', title: 'React', status: 0,
-            order: 0, priority: 1, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
+            order: 0, priority: 1, startDate: '',
+            addedDate: '', description: '', deadline: '',
             todoListId: 'todolistId1'
          },
       ],
       'todolistId2': [
          {
             id: '1', title: 'bread', status: 0,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
-            todoListId: 'todolistId1'
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
+            todoListId: 'todolistId2'
          },
          {
-            id: '3', title: 'tea', status: 0,
-            order: 0, priority: 0, startDate: new Date(),
-            addedDate: new Date(), description: '', deadline: new Date(),
-            todoListId: 'todolistId1'
+            id: '3', title: 'tea', status: 1,
+            order: 0, priority: 0, startDate: '',
+            addedDate: '', description: '', deadline: '',
+            todoListId: 'todolistId2'
          },
       ]
    })
