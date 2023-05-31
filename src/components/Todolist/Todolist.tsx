@@ -1,6 +1,5 @@
 import React, {memo, useCallback} from "react";
 import s from './Todolist.module.css';
-import {Button} from "../Button";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {FilterValuesType, TodolistDomainType} from "../../redux/reducers/todolists-reducer";
@@ -11,6 +10,11 @@ import {AppRootStateType} from "../../redux/store";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../redux/actions/actionsTasks";
 import {changeFilterTodoAC, changeTodoTitleAC, removeTodoAC} from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
+import {IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+import {Button} from "../Button";
+import styled from "styled-components";
+
 
 
 type TodolistPropsType = {
@@ -84,14 +88,16 @@ export const Todolist = memo((props: TodolistPropsType) => {
                   callBack={changeTodolistTitle}
                />
             </h3>
-            <Button onClick={removeTodolist}>X</Button>
+            <IconButton aria-label="delete" color={"error"}>
+               <Delete />
+            </IconButton>
          </div>
          <div className={s.wrapper}>
-            <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTask} />
          </div>
-         <ul>
+         <TasksList>
             {mappedTasks}
-         </ul>
+         </TasksList>
          <div style={{display: 'flex', gap: '5px'}}>
             <Button className={filter === 'all' ? s.activeFilter : ''}
                     onClick={() => changeFilter('all')}
@@ -113,3 +119,9 @@ export const Todolist = memo((props: TodolistPropsType) => {
       </div>
    );
 });
+
+const TasksList = styled.ul`
+  margin: 0;
+  padding: 5px 0 20px 0;
+  list-style: none;
+`

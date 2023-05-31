@@ -31,3 +31,11 @@
     display: flex;
 }
 
+.task {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.task span {
+    flex-grow: 1;
+}

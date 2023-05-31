@@ -35,10 +35,10 @@ export const Tasks = memo((props: TasksPropsType) => {
 
 
    return (
-      <li key={task.id} className={task.status === TaskStatuses.Completed ? s.taskIsDone : ''}>
-         <Button onClick={removeTaskHandler}>x</Button>
+      <li key={task.id} className={`${s.task} ${task.status === TaskStatuses.Completed ? s.taskIsDone : ''}`}>
          <CheckBox checked={task.status} changeStatusTaskHandler={changeStatusTaskHandler}/>
          <EditableSpan oldTitle={task.title} callBack={updateTitleTaskHandler}/>
+         <Button onClick={removeTaskHandler}>x</Button>
       </li>
    );
 });

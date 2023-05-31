@@ -1,6 +1,9 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import s from "../Todolist/Todolist.module.css";
 import {Button, TextField} from "@mui/material";
+import Add from '@mui/icons-material/Add';
+import styled, {css} from "styled-components";
+
 
 type AddItemFormPropsType = {
    addItem: (titleValue: string) => void
@@ -48,19 +51,27 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
             onChange={changeValueInputHandler}
             onKeyPress={onKeyPressHandler}
             error={error}
-            id="outlined-error"
             label={errorText}
             placeholder="Добавить колонку"
             variant="outlined"
             size="small"
+            sx={{
+               maxWidth: '300px',
+               width: '100%',
+               "& .MuiOutlinedInput-root": {
+                  borderRadius: "5px 0px 0px 5px",
+               },
+            }}
          />
          <Button
             sx={{borderRadius: '0px 5px 5px 0px'}}
             variant="contained"
             onClick={addItemHandler}
             size="medium"
-         >Добавить
+         >
+            <Add/>
          </Button>
       </div>
    );
 });
+

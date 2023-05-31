@@ -8,8 +8,9 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
 import {TodolistDomainType} from "./redux/reducers/todolists-reducer";
-import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
+import {Card, CardContent, Container} from "@mui/material";
 import {Header} from "./components/Header/Header";
+import Grid from '@mui/material/Unstable_Grid2';
 
 
 export const App = () => {
@@ -21,24 +22,38 @@ export const App = () => {
       dispatch(addTodoAC(titleValue));
    }, [dispatch]);
 
+   const gridStyles = {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(4, 1fr)',
+      gap: '20px',
+   }
+
    return (
       <div className="App">
          <Header/>
          <div style={{marginTop: 20}}>
             <Container maxWidth="xl">
-               <div>
+               <div style={{marginBottom: 50}}>
                   <AddItemForm addItem={addTodolist}/>
                </div>
-               {
-                  todolists.map(tl => {
-                     return (
-                        <Todolist
-                           key={tl.id}
-                           todolist={tl}
-                        />
-                     );
-                  })
-               }
+                  <Grid container sx={gridStyles}>
+                     {
+                        todolists.map(tl => {
+                           return (
+                              <Grid>
+                                 <Card>
+                                    <CardContent>
+                                       <Todolist
+                                          key={tl.id}
+                                          todolist={tl}
+                                       />
+                                    </CardContent>
+                                 </Card>
+                              </Grid>
+                           );
+                        })
+                     }
+                  </Grid>
             </Container>
          </div>
       </div>
