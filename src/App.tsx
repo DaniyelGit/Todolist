@@ -8,8 +8,7 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./redux/store";
 import {TodolistDomainType} from "./redux/reducers/todolists-reducer";
-import {AppBar, Box, Button, IconButton, Toolbar, Typography} from "@mui/material";
-import Menu from '@mui/icons-material/Menu';
+import {AppBar, Box, Button, Container, IconButton, Toolbar, Typography} from "@mui/material";
 import {Header} from "./components/Header/Header";
 
 
@@ -25,19 +24,23 @@ export const App = () => {
    return (
       <div className="App">
          <Header/>
-         <div>
-            <AddItemForm addItem={addTodolist}/>
+         <div style={{marginTop: 20}}>
+            <Container maxWidth="xl">
+               <div>
+                  <AddItemForm addItem={addTodolist}/>
+               </div>
+               {
+                  todolists.map(tl => {
+                     return (
+                        <Todolist
+                           key={tl.id}
+                           todolist={tl}
+                        />
+                     );
+                  })
+               }
+            </Container>
          </div>
-         {
-            todolists.map(tl => {
-               return (
-                  <Todolist
-                     key={tl.id}
-                     todolist={tl}
-                  />
-               );
-            })
-         }
       </div>
    );
 }

@@ -1,5 +1,6 @@
 import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import s from "../Todolist/Todolist.module.css";
+import {Button, TextField} from "@mui/material";
 
 type AddItemFormPropsType = {
    addItem: (titleValue: string) => void
@@ -12,12 +13,16 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
    } = props;
 
    const [valueInput, setValueInput] = useState<string>('');
-   const [error, setError] = useState<string | null>(null);
+   const [error, setError] = useState<boolean>(false);
+   const [errorText, setErrorText] = useState<string>('')
 
    const changeValueInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setValueInput(e.currentTarget.value);
 
-      error && setError(null);
+      if (error) {
+         setError(false);
+         setErrorText('');
+      }
    };
 
    const addItemHandler = () => {
@@ -25,7 +30,8 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
          addItem(valueInput.trim());
          setValueInput('');
       } else {
-         setError('Title is required');
+         setError(true);
+         setErrorText('Требуется заголовок')
       }
    };
 
@@ -36,16 +42,25 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
    };
 
    return (
-      <>
-         <input className={error ? s.error : ''}
-                value={valueInput}
-                onChange={changeValueInputHandler}
-                onKeyPress={onKeyPressHandler}
+      <div className={s.wrapperAddItemForm}>
+         <TextField
+            value={valueInput}
+            onChange={changeValueInputHandler}
+            onKeyPress={onKeyPressHandler}
+            error={error}
+            id="outlined-error"
+            label={errorText}
+            placeholder="Добавить колонку"
+            variant="outlined"
+            size="small"
          />
-         <button onClick={addItemHandler}>+</button>
-         {
-            error && <div className={s.errorMessage}>{error}</div>
-         }
-      </>
+         <Button
+            sx={{borderRadius: '0px 5px 5px 0px'}}
+            variant="contained"
+            onClick={addItemHandler}
+            size="medium"
+         >Добавить
+         </Button>
+      </div>
    );
 });
