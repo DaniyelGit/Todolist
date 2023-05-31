@@ -34,8 +34,6 @@
 .task {
     display: flex;
     margin-bottom: 10px;
+    align-items: center;
 }
 
-.task span {
-    flex-grow: 1;
-}
