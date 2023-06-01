@@ -23,7 +23,7 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
             todoListId: action.todoID, addedDate: '', deadline: '',
             description: '', order: 0, startDate: '', priority: TaskPriorities.Low
          };
-         return  {
+         return {
             ...state,
             [action.todoID]: [...state[action.todoID], newTask]
          }
@@ -43,7 +43,7 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
          }
       }
       case ACTIONS_TODOLISTS.ADD_TODOLIST: {
-         return  {
+         return {
             ...state,
             [action.payload.id]: []
          }
@@ -53,7 +53,13 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
          delete copyState[action.payload]
          return copyState;
       }
-
+      case ACTIONS_TODOLISTS.SET_TODOLISTS: {
+         const stateCopy = {...state};
+         action.todolists.forEach(tl => {
+            stateCopy[tl.id] = [];
+         })
+         return stateCopy;
+      }
       default: {
          return state;
       }

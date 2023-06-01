@@ -2,7 +2,7 @@ import React, {memo, useCallback} from "react";
 import s from './Todolist.module.css';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {FilterValuesType, TodolistDomainType} from "../../redux/reducers/todolists-reducer";
+import {FilterValuesType, TodolistsDomainType} from "../../redux/reducers/todolists-reducer";
 import {Tasks} from "../Tasks/Tasks";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import styled from "styled-components";
 
 type TodolistPropsType = {
-   todolist: TodolistDomainType
+   todolist: TodolistsDomainType
 }
 
 export const Todolist = memo((props: TodolistPropsType) => {
@@ -26,6 +26,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    const {id, title, filter} = todolist;
 
    let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id]);
+
    const dispatch = useDispatch();
 
    const removeTask = useCallback((taskID: string) => {

@@ -4,14 +4,14 @@ import {
    changeTodoTitleAC,
    removeTodoAC,
 } from "../redux/actions/actionsTodolists";
-import {FilterValuesType, TodolistDomainType, TodolistReducer} from "../redux/reducers/todolists-reducer";
+import {FilterValuesType, TodolistsDomainType, TodolistReducer} from "../redux/reducers/todolists-reducer";
 import {v1} from 'uuid';
 
 
 
 let todolistId1: string;
 let todolistId2: string;
-let startState: TodolistDomainType[];
+let startState: TodolistsDomainType[];
 
 beforeEach(() => {
    todolistId1 = v1();

@@ -1,22 +1,27 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist/Todolist";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
 import {
-   addTodoAC,
+   addTodoAC, getTodolists, setTodolists,
 } from "./redux/actions/actionsTodolists";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./redux/store";
-import {TodolistDomainType} from "./redux/reducers/todolists-reducer";
+import {useSelector} from "react-redux";
+import {AppRootStateType, useAppDispatch} from "./redux/store";
+import {TodolistsDomainType} from "./redux/reducers/todolists-reducer";
 import {Card, CardContent, Container} from "@mui/material";
 import {Header} from "./components/Header/Header";
 import Grid from '@mui/material/Unstable_Grid2';
 
 
-export const App = () => {
-   let todolists = useSelector<AppRootStateType, TodolistDomainType[]>((state) => state.todolists);
 
-   const dispatch = useDispatch();
+export const App = () => {
+   let todolists = useSelector<AppRootStateType, TodolistsDomainType[]>((state) => state.todolists);
+
+   const dispatch = useAppDispatch();
+
+   useEffect(() => {
+      dispatch(getTodolists)
+   }, []);
 
    const addTodolist = useCallback((titleValue: string) => {
       dispatch(addTodoAC(titleValue));
@@ -40,11 +45,10 @@ export const App = () => {
                      {
                         todolists.map(tl => {
                            return (
-                              <Grid>
+                              <Grid key={tl.id}>
                                  <Card>
                                     <CardContent>
                                        <Todolist
-                                          key={tl.id}
                                           todolist={tl}
                                        />
                                     </CardContent>

@@ -1,4 +1,4 @@
-import {addTodoActionType, removeTodoActionType} from "./actionsTodolists";
+import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {TaskStatuses} from "../../api/todolists-api";
 
 
@@ -9,18 +9,19 @@ export enum ACTIONS_TASKS {
    CHANGE_TASK_TITLE = 'CHANGE-TASK-TITLE',
 }
 
-export type ActionsTypes = removeTaskActionType
-   | addTaskActionType
-   | changeTaskStatusActionType
-   | changeTaskTitleActionType
-   | addTodoActionType
-   | removeTodoActionType;
+export type ActionsTypes = RemoveTaskActionType
+   | AddTaskActionType
+   | ChangeTaskStatusActionType
+   | ChangeTaskTitleActionType
+   | AddTodoActionType
+   | RemoveTodoActionType
+   | SetTodolistsType;
 
 
-type removeTaskActionType = ReturnType<typeof removeTaskAC>;
-type addTaskActionType = ReturnType<typeof addTaskAC>;
-type changeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>;
-type changeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
+type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
+type AddTaskActionType = ReturnType<typeof addTaskAC>;
+type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>;
+type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
 
 
 export const removeTaskAC = (todoID: string, taskID: string) => {

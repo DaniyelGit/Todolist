@@ -1,5 +1,7 @@
 import {FilterValuesType} from "../reducers/todolists-reducer";
 import {v1} from "uuid";
+import {todolistsAPI, TodolistType} from "../../api/todolists-api";
+import {Dispatch} from "redux";
 
 
 export enum ACTIONS_TODOLISTS {
@@ -7,24 +9,27 @@ export enum ACTIONS_TODOLISTS {
    ADD_TODOLIST = 'ADD-TODOLIST',
    CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
    CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
+   SET_TODOLISTS = 'SET_TODOLISTS',
 }
 
 
-export type ActionsType = removeTodoActionType
-   | addTodoActionType
-   | changeTodoTitleActionType
-   | changeFilterTodoActionType;
+export type ActionsType = RemoveTodoActionType
+   | AddTodoActionType
+   | ChangeTodoTitleActionType
+   | ChangeFilterTodoActionType
+   | SetTodolistsType;
 
-type changeFilterTodoActionType = ReturnType<typeof changeFilterTodoAC>;
-type changeTodoTitleActionType = ReturnType<typeof changeTodoTitleAC>;
-export type addTodoActionType = ReturnType<typeof addTodoAC>;
-export type removeTodoActionType = ReturnType<typeof removeTodoAC>;
+type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodoAC>;
+type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitleAC>;
+export type AddTodoActionType = ReturnType<typeof addTodoAC>;
+export type RemoveTodoActionType = ReturnType<typeof removeTodoAC>;
+export type SetTodolistsType = ReturnType<typeof setTodolists>;
 
 export const removeTodoAC = (id: string) => {
    return {
       type: ACTIONS_TODOLISTS.REMOVE_TODOLIST,
       payload: id,
-   } as const
+   } as const;
 };
 export const addTodoAC = (title: string) => {
    return {
@@ -32,8 +37,8 @@ export const addTodoAC = (title: string) => {
       payload: {
          id: v1(),
          title
-      },
-   } as const
+      }
+   } as const;
 };
 export const changeTodoTitleAC = (id: string, newTodolistTitle: string) => {
    return {
@@ -42,7 +47,7 @@ export const changeTodoTitleAC = (id: string, newTodolistTitle: string) => {
          id,
          newTodolistTitle,
       }
-   } as const
+   } as const;
 };
 export const changeFilterTodoAC = (id: string, valueFilter: FilterValuesType) => {
    return {
@@ -51,5 +56,17 @@ export const changeFilterTodoAC = (id: string, valueFilter: FilterValuesType) =>
          id,
          valueFilter,
       }
-   } as const
-}
+   } as const;
+};
+export const setTodolists = (todolists: TodolistType[]) => {
+   return {
+      type: ACTIONS_TODOLISTS.SET_TODOLISTS,
+      todolists,
+   } as const;
+};
+export const getTodolists = (dispatch: Dispatch) => {
+   todolistsAPI.getTodolists()
+      .then(res => {
+         dispatch(setTodolists(res.data));
+      });
+};
