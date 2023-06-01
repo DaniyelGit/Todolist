@@ -6,16 +6,13 @@ import {FilterValuesType, TodolistDomainType} from "../../redux/reducers/todolis
 import {Tasks} from "../Tasks/Tasks";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../redux/store";
-
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../redux/actions/actionsTasks";
 import {changeFilterTodoAC, changeTodoTitleAC, removeTodoAC} from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
-import {IconButton} from "@mui/material";
+import {Box, ButtonGroup, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import {Button} from "../Button";
+import Button from '@mui/material/Button';
 import styled from "styled-components";
-
-
 
 type TodolistPropsType = {
    todolist: TodolistDomainType
@@ -88,34 +85,23 @@ export const Todolist = memo((props: TodolistPropsType) => {
                   callBack={changeTodolistTitle}
                />
             </h3>
-            <IconButton aria-label="delete" color={"error"}>
-               <Delete />
+            <IconButton aria-label="delete" color={"error"} onClick={removeTodolist}>
+               <Delete/>
             </IconButton>
          </div>
          <div className={s.wrapper}>
-            <AddItemForm addItem={addTask} />
+            <AddItemForm addItem={addTask}/>
          </div>
          <TasksList>
             {mappedTasks}
          </TasksList>
-         <div style={{display: 'flex', gap: '5px'}}>
-            <Button className={filter === 'all' ? s.activeFilter : ''}
-                    onClick={() => changeFilter('all')}
-            >
-               all
-            </Button
-            >
-            <Button className={filter === 'active' ? s.activeFilter : ''}
-                    onClick={() => changeFilter('active')}
-            >
-               active
-            </Button>
-            <Button className={filter === 'completed' ? s.activeFilter : ''}
-                    onClick={() => changeFilter('completed')}
-            >
-               completed
-            </Button>
-         </div>
+         <StyledBoxButtons>
+            <ButtonGroup size={'medium'} variant="contained" aria-label="outlined primary button group">
+               <Button onClick={() => changeFilter('all')} color={filter === 'all' ? 'info' : 'primary'}>all</Button>
+               <Button onClick={() => changeFilter('active')} color={filter === 'active' ? 'info' : 'primary'}>active</Button>
+               <Button onClick={() => changeFilter('completed')} color={filter === 'completed' ? 'info' : 'primary'}>completed</Button>
+            </ButtonGroup>
+         </StyledBoxButtons>
       </div>
    );
 });
@@ -124,4 +110,9 @@ const TasksList = styled.ul`
   margin: 0;
   padding: 5px 0 20px 0;
   list-style: none;
-`
+`;
+
+const StyledBoxButtons = styled(Box)`
+  display: flex;
+  justify-content: center;
+`;

@@ -1,6 +1,7 @@
 import React, {ChangeEvent, memo, useCallback} from 'react';
 import s from "../Todolist/Todolist.module.css";
-import {Button} from "../Button";
+import IconButton from '@mui/material/IconButton';
+import HighlightOff from '@mui/icons-material/HighlightOff';
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
 import Checkbox from '@mui/material/Checkbox';
@@ -26,14 +27,11 @@ export const Tasks = memo((props: TasksPropsType) => {
       removeTask(task.id);
    }, [removeTask, task.id]);
 
-   /*const changeStatusTaskHandler = useCallback((status: TaskStatuses) => {
-      changeStatusTask(task.id, status);
-   }, [changeStatusTask, task.id])*/
 
-   const changeStatusTaskHandler = (e: ChangeEvent<HTMLInputElement>) => {
+   const changeStatusTaskHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       const newIsDoneValue = e.currentTarget.checked;
       changeStatusTask(task.id, newIsDoneValue ? TaskStatuses.Completed : TaskStatuses.New);
-   }
+   }, [changeStatusTask, task.id])
 
    const updateTitleTaskHandler = useCallback((newTitle: string) => {
       changeTaskTitle(task.id, newTitle);
@@ -44,7 +42,9 @@ export const Tasks = memo((props: TasksPropsType) => {
       <li key={task.id} className={`${s.task} ${task.status === TaskStatuses.Completed ? s.taskIsDone : ''}`}>
          <StyledCheckBox checked={task.status === TaskStatuses.Completed} onChange={changeStatusTaskHandler}/>
          <EditableSpan oldTitle={task.title} callBack={updateTitleTaskHandler}/>
-         <Button onClick={removeTaskHandler}>x</Button>
+         <DeleteTaskButton onClick={removeTaskHandler}>
+            <HighlightOff color={"error"}/>
+         </DeleteTaskButton>
       </li>
    );
 });
@@ -53,4 +53,7 @@ const StyledCheckBox = styled(Checkbox)`
   ${'MuiButtonBase-root'}: {
     flex-grow: 0;
   }
+`
+const DeleteTaskButton = styled(IconButton)`
+   margin-left: auto;
 `
