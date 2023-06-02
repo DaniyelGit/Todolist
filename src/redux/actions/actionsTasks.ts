@@ -1,4 +1,4 @@
-import {AddTodoActionType, RemoveTodoActionType, setTodolists, SetTodolistsType} from "./actionsTodolists";
+import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {tasksAPI, TaskStatuses, TaskType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 
@@ -35,11 +35,11 @@ export const removeTaskAC = (todoID: string, taskID: string) => {
       taskID,
    } as const;
 };
-export const addTaskAC = (todoID: string, title: string) => {
+export const addTaskAC = (todoId: string, task: TaskType) => {
    return {
       type: ACTIONS_TASKS.ADD_TASK,
-      todoID,
-      title,
+      task,
+      todoId,
    } as const;
 };
 export const changeTaskStatusAC = (todoID: string, taskID: string, status: TaskStatuses) => {
@@ -82,3 +82,10 @@ export const deleteTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
          }
       });
 };
+
+export const createTaskTC = (todoId: string, title: string) => (dispatch: Dispatch) => {
+   tasksAPI.createTask(todoId, title)
+      .then(res => {
+         dispatch(addTaskAC(todoId, res.data.data.item));
+      });
+}
