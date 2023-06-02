@@ -60,6 +60,12 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
          })
          return stateCopy;
       }
+      case ACTIONS_TASKS.SET_TASKS: {
+         return {
+            ...state,
+            [action.todoId]: action.tasks
+         }
+      }
       default: {
          return state;
       }

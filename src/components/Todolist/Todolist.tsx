@@ -1,12 +1,18 @@
-import React, {memo, useCallback} from "react";
+import React, {memo, useCallback, useEffect} from "react";
 import s from './Todolist.module.css';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {FilterValuesType, TodolistsDomainType} from "../../redux/reducers/todolists-reducer";
 import {Tasks} from "../Tasks/Tasks";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../../redux/store";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../../redux/actions/actionsTasks";
+import {AppRootStateType, useAppDispatch} from "../../redux/store";
+import {
+   addTaskAC,
+   changeTaskStatusAC,
+   changeTaskTitleAC, deleteTaskTC,
+   getTasksTC,
+   removeTaskAC, setTasks
+} from "../../redux/actions/actionsTasks";
 import {changeFilterTodoAC, changeTodoTitleAC, removeTodoAC} from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
 import {Box, ButtonGroup, IconButton} from "@mui/material";
@@ -25,12 +31,15 @@ export const Todolist = memo((props: TodolistPropsType) => {
 
    const {id, title, filter} = todolist;
 
-   let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id]);
+   useEffect(() => {
+      dispatch(getTasksTC(id));
+   }, [])
 
-   const dispatch = useDispatch();
+   let tasks = useSelector<AppRootStateType, TaskType[]>(state => state.tasks[id]);
+   const dispatch = useAppDispatch();
 
    const removeTask = useCallback((taskID: string) => {
-      dispatch(removeTaskAC(id, taskID));
+      dispatch(deleteTaskTC(id, taskID));
    }, [id]);
 
    const changeTaskTitle = useCallback((taskID: string, newTitle: string) => {

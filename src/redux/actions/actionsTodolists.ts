@@ -64,9 +64,10 @@ export const setTodolists = (todolists: TodolistType[]) => {
       todolists,
    } as const;
 };
-export const getTodolists = (dispatch: Dispatch) => {
+
+export const getTodolistsTC = () => (dispatch: Dispatch) => {
    todolistsAPI.getTodolists()
       .then(res => {
          dispatch(setTodolists(res.data));
       });
-};
+}
