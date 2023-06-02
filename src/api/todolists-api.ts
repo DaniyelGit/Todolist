@@ -73,7 +73,7 @@ export type TaskType = {
    todoListId: string
 };
 
-type UpdateTaskModalType = {
+export type UpdateTaskModalType = {
    title: string
    description: string
    status: number

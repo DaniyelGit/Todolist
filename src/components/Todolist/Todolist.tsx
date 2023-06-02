@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../redux/store";
 import {
    addTaskAC,
-   changeTaskStatusAC,
+   changeTaskStatusAC, changeTaskStatusTC,
    changeTaskTitleAC, createTaskTC, deleteTaskTC,
    getTasksTC,
    removeTaskAC, setTasks
@@ -55,7 +55,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    }, [id]);
 
    const changeStatusTask = useCallback((taskID: string, status: TaskStatuses) => {
-      dispatch(changeTaskStatusAC(id, taskID, status));
+      dispatch(changeTaskStatusTC(id, taskID, status));
    }, [id]);
 
 

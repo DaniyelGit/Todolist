@@ -1,10 +1,11 @@
 import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
-import {tasksAPI, TaskStatuses, TaskType} from "../../api/todolists-api";
+import {tasksAPI, TaskStatuses, TaskType, UpdateTaskModalType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
+import {AppRootStateType} from "../store";
 
 
 export enum ACTIONS_TASKS {
-   REMOVE_TASK= 'REMOVE-TASK',
+   REMOVE_TASK = 'REMOVE-TASK',
    ADD_TASK = 'ADD-TASK',
    CHANGE_TASK_STATUS = 'CHANGE-TASK-STATUS',
    CHANGE_TASK_TITLE = 'CHANGE-TASK-TITLE',
@@ -88,4 +89,25 @@ export const createTaskTC = (todoId: string, title: string) => (dispatch: Dispat
       .then(res => {
          dispatch(addTaskAC(todoId, res.data.data.item));
       });
-}
+};
+
+export const changeTaskStatusTC = (todoId: string, taskId: string, status: TaskStatuses) =>
+   (dispatch: Dispatch, getState: () => AppRootStateType) => {
+      const task = getState().tasks[todoId].find(t => t.id === taskId);
+      if (task) {
+         const modal: UpdateTaskModalType = {
+            title: task.title,
+            description: task.description,
+            priority: task.priority,
+            startDate: task.startDate,
+            deadline: task.deadline,
+            status,
+         };
+         tasksAPI.updateTask(todoId, taskId, modal)
+            .then(res => {
+               dispatch(changeTaskStatusAC(todoId, taskId, status))
+            })
+      }
+
+
+   };
