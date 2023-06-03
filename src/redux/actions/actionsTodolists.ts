@@ -2,7 +2,7 @@ import {FilterValuesType} from "../reducers/todolists-reducer";
 import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppActionsType} from "../store";
+import {AppActionsType, AppThunkType} from "../store";
 
 
 export enum ACTIONS_TODOLISTS {
@@ -68,7 +68,7 @@ export const setTodolists = (todolists: TodolistType[]) => {
 };
 
 // ThunksCreator
-export const getTodolistsTC = () => (dispatch: Dispatch<AppActionsType>) => {
+export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    todolistsAPI.getTodolists()
       .then(res => {
          dispatch(setTodolists(res.data));

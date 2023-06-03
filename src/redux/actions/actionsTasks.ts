@@ -1,7 +1,7 @@
 import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {tasksAPI, TaskStatuses, TaskType, UpdateTaskModalType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppActionsType, AppRootStateType} from "../store";
+import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
 
 
 export enum ACTIONS_TASKS {
@@ -68,13 +68,13 @@ export const setTasks = (todoId: string, tasks: TaskType[]) => {
 };
 
 // ThunksCreator
-export const getTasksTC = (todoId: string) => (dispatch: Dispatch<AppActionsType>) => {
+export const getTasksTC = (todoId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.getTasks(todoId)
       .then(res => {
          dispatch(setTasks(todoId, res.data.items));
       });
 };
-export const deleteTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch<AppActionsType>) => {
+export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.deleteTask(todoId, taskId)
       .then(res => {
          if (res.data.resultCode === 0) {
@@ -82,13 +82,13 @@ export const deleteTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
          }
       });
 };
-export const createTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<AppActionsType>) => {
+export const createTaskTC = (todoId: string, title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.createTask(todoId, title)
       .then(res => {
          dispatch(addTaskAC(todoId, res.data.data.item));
       });
 };
-export const changeTaskStatusTC = (todoId: string, taskId: string, status: TaskStatuses) =>
+export const changeTaskStatusTC = (todoId: string, taskId: string, status: TaskStatuses): AppThunkType =>
    (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
       const task = getState().tasks[todoId].find(t => t.id === taskId);
       if (task) {
