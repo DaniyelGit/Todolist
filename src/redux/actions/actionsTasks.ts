@@ -12,7 +12,7 @@ export enum ACTIONS_TASKS {
    SET_TASKS = 'SET_TASKS',
 }
 
-export type TasksActionsTypes = RemoveTaskActionType
+export type TasksActionsType = RemoveTaskActionType
    | AddTaskActionType
    | ChangeTaskStatusActionType
    | ChangeTaskTitleActionType
@@ -60,6 +60,14 @@ export const changeTaskTitleAC = (todoID: string, taskID: string, newTitle: stri
    } as const;
 };
 export const setTasks = (todoId: string, tasks: TaskType[]) => {
+   return {
+      type: ACTIONS_TASKS.SET_TASKS,
+      todoId,
+      tasks,
+   } as const;
+};
+
+export const test = (todoId: string, tasks: TaskType[]) => {
    return {
       type: ACTIONS_TASKS.SET_TASKS,
       todoId,

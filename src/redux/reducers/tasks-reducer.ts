@@ -1,7 +1,7 @@
-import {ACTIONS_TASKS} from "../actions/actionsTasks";
+import {ACTIONS_TASKS, TasksActionsType} from "../actions/actionsTasks";
 import {ACTIONS_TODOLISTS} from "../actions/actionsTodolists";
 import {TaskType} from "../../api/todolists-api";
-import {AppActionsType} from "../store";
+
 
 export type TasksStateType = {
    [key: string]: TaskType[]
@@ -9,7 +9,7 @@ export type TasksStateType = {
 
 const initialStateTasks: TasksStateType = {};
 
-export const TasksReducer = (state: TasksStateType = initialStateTasks, action: AppActionsType): TasksStateType => {
+export const TasksReducer = (state: TasksStateType = initialStateTasks, action: TasksActionsType): TasksStateType => {
    switch (action.type) {
       case ACTIONS_TASKS.REMOVE_TASK: {
          return {

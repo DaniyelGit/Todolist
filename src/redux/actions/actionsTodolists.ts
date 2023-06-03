@@ -14,7 +14,7 @@ export enum ACTIONS_TODOLISTS {
 }
 
 
-export type TodolistsActionsTypes = RemoveTodoActionType
+export type TodolistsActionsType = RemoveTodoActionType
    | AddTodoActionType
    | ChangeTodoTitleActionType
    | ChangeFilterTodoActionType
