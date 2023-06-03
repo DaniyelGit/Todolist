@@ -2,6 +2,7 @@ import {FilterValuesType} from "../reducers/todolists-reducer";
 import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
+import {AppActionsType} from "../store";
 
 
 export enum ACTIONS_TODOLISTS {
@@ -13,25 +14,26 @@ export enum ACTIONS_TODOLISTS {
 }
 
 
-export type ActionsType = RemoveTodoActionType
+export type TodolistsActionsTypes = RemoveTodoActionType
    | AddTodoActionType
    | ChangeTodoTitleActionType
    | ChangeFilterTodoActionType
    | SetTodolistsType;
 
-type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodoAC>;
-type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitleAC>;
-export type AddTodoActionType = ReturnType<typeof addTodoAC>;
-export type RemoveTodoActionType = ReturnType<typeof removeTodoAC>;
+type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodo>;
+type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitle>;
+export type AddTodoActionType = ReturnType<typeof addTodo>;
+export type RemoveTodoActionType = ReturnType<typeof removeTodo>;
 export type SetTodolistsType = ReturnType<typeof setTodolists>;
 
-export const removeTodoAC = (id: string) => {
+// ActionsCreator
+export const removeTodo = (id: string) => {
    return {
       type: ACTIONS_TODOLISTS.REMOVE_TODOLIST,
       payload: id,
    } as const;
 };
-export const addTodoAC = (title: string) => {
+export const addTodo = (title: string) => {
    return {
       type: ACTIONS_TODOLISTS.ADD_TODOLIST,
       payload: {
@@ -40,7 +42,7 @@ export const addTodoAC = (title: string) => {
       }
    } as const;
 };
-export const changeTodoTitleAC = (id: string, newTodolistTitle: string) => {
+export const changeTodoTitle = (id: string, newTodolistTitle: string) => {
    return {
       type: ACTIONS_TODOLISTS.CHANGE_TODOLIST_TITLE,
       payload: {
@@ -49,7 +51,7 @@ export const changeTodoTitleAC = (id: string, newTodolistTitle: string) => {
       }
    } as const;
 };
-export const changeFilterTodoAC = (id: string, valueFilter: FilterValuesType) => {
+export const changeFilterTodo = (id: string, valueFilter: FilterValuesType) => {
    return {
       type: ACTIONS_TODOLISTS.CHANGE_TODOLIST_FILTER,
       payload: {
@@ -65,7 +67,8 @@ export const setTodolists = (todolists: TodolistType[]) => {
    } as const;
 };
 
-export const getTodolistsTC = () => (dispatch: Dispatch) => {
+// ThunksCreator
+export const getTodolistsTC = () => (dispatch: Dispatch<AppActionsType>) => {
    todolistsAPI.getTodolists()
       .then(res => {
          dispatch(setTodolists(res.data));

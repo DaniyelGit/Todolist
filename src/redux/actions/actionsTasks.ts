@@ -1,7 +1,7 @@
 import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {tasksAPI, TaskStatuses, TaskType, UpdateTaskModalType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppRootStateType} from "../store";
+import {AppActionsType, AppRootStateType} from "../store";
 
 
 export enum ACTIONS_TASKS {
@@ -12,7 +12,7 @@ export enum ACTIONS_TASKS {
    SET_TASKS = 'SET_TASKS',
 }
 
-export type ActionsTypes = RemoveTaskActionType
+export type TasksActionsTypes = RemoveTaskActionType
    | AddTaskActionType
    | ChangeTaskStatusActionType
    | ChangeTaskTitleActionType
@@ -28,7 +28,7 @@ type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>;
 type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
 type SetTasksType = ReturnType<typeof setTasks>;
 
-
+// ActionsCreator
 export const removeTaskAC = (todoID: string, taskID: string) => {
    return {
       type: ACTIONS_TASKS.REMOVE_TASK,
@@ -59,7 +59,6 @@ export const changeTaskTitleAC = (todoID: string, taskID: string, newTitle: stri
       newTitle,
    } as const;
 };
-
 export const setTasks = (todoId: string, tasks: TaskType[]) => {
    return {
       type: ACTIONS_TASKS.SET_TASKS,
@@ -68,14 +67,14 @@ export const setTasks = (todoId: string, tasks: TaskType[]) => {
    } as const;
 };
 
-export const getTasksTC = (todoId: string) => (dispatch: Dispatch) => {
+// ThunksCreator
+export const getTasksTC = (todoId: string) => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.getTasks(todoId)
       .then(res => {
          dispatch(setTasks(todoId, res.data.items));
       });
 };
-
-export const deleteTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch) => {
+export const deleteTaskTC = (todoId: string, taskId: string) => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.deleteTask(todoId, taskId)
       .then(res => {
          if (res.data.resultCode === 0) {
@@ -83,16 +82,14 @@ export const deleteTaskTC = (todoId: string, taskId: string) => (dispatch: Dispa
          }
       });
 };
-
-export const createTaskTC = (todoId: string, title: string) => (dispatch: Dispatch) => {
+export const createTaskTC = (todoId: string, title: string) => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.createTask(todoId, title)
       .then(res => {
          dispatch(addTaskAC(todoId, res.data.data.item));
       });
 };
-
 export const changeTaskStatusTC = (todoId: string, taskId: string, status: TaskStatuses) =>
-   (dispatch: Dispatch, getState: () => AppRootStateType) => {
+   (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
       const task = getState().tasks[todoId].find(t => t.id === taskId);
       if (task) {
          const modal: UpdateTaskModalType = {

@@ -1,5 +1,5 @@
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../redux/actions/actionsTasks";
-import {addTodoAC, removeTodoAC} from "../redux/actions/actionsTodolists";
+import {addTodo, removeTodo} from "../redux/actions/actionsTodolists";
 import {TasksReducer, TasksStateType} from "../redux/reducers/tasks-reducer";
 import {TaskStatuses} from "../api/todolists-api";
 
@@ -124,7 +124,7 @@ test('title of specified task should be changed', () => {
 });
 
 test('new array should be added when new todolist is added', () => {
-   const action = addTodoAC('new todolist')
+   const action = addTodo('new todolist')
 
    const endState = TasksReducer(startState, action)
 
@@ -139,7 +139,7 @@ test('new array should be added when new todolist is added', () => {
 });
 
 test('property with todolistId should be deleted', () => {
-   const action = removeTodoAC('todolistId2')
+   const action = removeTodo('todolistId2')
 
    const endState = TasksReducer(startState, action)
 
