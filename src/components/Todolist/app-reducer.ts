@@ -6,9 +6,9 @@ const initialState = {
 
 type InitialStateType = typeof initialState;
 
-export const appReducer = (state: InitialStateType = initialState, action: any): InitialStateType => {
+export const appReducer = (state: InitialStateType = initialState, action: AppActionsType): InitialStateType => {
    switch (action.type) {
-      case 'APP/SET-STATUS': {
+      case 'APP/SET_STATUS': {
          return {...state, status: action.status}
       }
       default: {
@@ -16,3 +16,14 @@ export const appReducer = (state: InitialStateType = initialState, action: any):
       }
    }
 }
+
+const setLoadingStatus = (status: RequestStatusType) => {
+   return {
+      type: 'APP/SET_STATUS',
+      status,
+   } as const;
+};
+
+type SetLoadingStatusType = ReturnType<typeof setLoadingStatus>;
+
+type AppActionsType = SetLoadingStatusType;
