@@ -5,8 +5,10 @@ import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
 import {TodolistsActionsType} from "./actions/actionsTodolists";
 import {TasksActionsType} from "./actions/actionsTasks";
+import {AppReducer} from "../components/Todolist/app-reducer";
 
 const rootReducer = combineReducers({
+   app: AppReducer,
    todolists: TodolistReducer,
    tasks: TasksReducer,
 });

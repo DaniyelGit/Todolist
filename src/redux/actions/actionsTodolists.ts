@@ -69,6 +69,7 @@ export const setTodolists = (todolists: TodolistType[]) => {
 
 // ThunksCreator
 export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+
    todolistsAPI.getTodolists()
       .then(res => {
          dispatch(setTodolists(res.data));

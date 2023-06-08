@@ -67,14 +67,6 @@ export const setTasks = (todoId: string, tasks: TaskType[]) => {
    } as const;
 };
 
-export const test = (todoId: string, tasks: TaskType[]) => {
-   return {
-      type: ACTIONS_TASKS.SET_TASKS,
-      todoId,
-      tasks,
-   } as const;
-};
-
 // ThunksCreator
 export const getTasksTC = (todoId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    tasksAPI.getTasks(todoId)
