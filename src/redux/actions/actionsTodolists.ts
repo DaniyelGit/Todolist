@@ -1,8 +1,9 @@
-import {FilterValuesType} from "../reducers/todolists-reducer";
+import {FilterValuesType, TodolistsDomainType} from "../reducers/todolists-reducer";
 import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunkType} from "../store";
+import {setRequestStatus, SetRequestStatusType} from "../reducers/app-reducer";
 
 
 export enum ACTIONS_TODOLISTS {
@@ -18,7 +19,8 @@ export type TodolistsActionsType = RemoveTodoActionType
    | AddTodoActionType
    | ChangeTodoTitleActionType
    | ChangeFilterTodoActionType
-   | SetTodolistsType;
+   | SetTodolistsType
+   | SetRequestStatusType;
 
 type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodo>;
 type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitle>;
@@ -33,13 +35,10 @@ export const removeTodo = (id: string) => {
       payload: id,
    } as const;
 };
-export const addTodo = (title: string) => {
+export const addTodo = (todolist: TodolistType) => {
    return {
       type: ACTIONS_TODOLISTS.ADD_TODOLIST,
-      payload: {
-         id: v1(),
-         title
-      }
+      todolist,
    } as const;
 };
 export const changeTodoTitle = (id: string, newTodolistTitle: string) => {
@@ -69,9 +68,20 @@ export const setTodolists = (todolists: TodolistType[]) => {
 
 // ThunksCreator
 export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
-
+   dispatch(setRequestStatus('loading'));
    todolistsAPI.getTodolists()
       .then(res => {
          dispatch(setTodolists(res.data));
+         dispatch(setRequestStatus('succeeded'));
       });
+}
+
+export const createTodolistTC = (title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+   dispatch(setRequestStatus('loading'));
+   todolistsAPI.createTodolist(title)
+      .then((res) => {
+         console.log(res)
+         dispatch(addTodo(res.data.data.item));
+         dispatch(setRequestStatus('succeeded'));
+      })
 }

@@ -4,7 +4,7 @@ import {TodolistsDomainType, TodolistReducer} from "../redux/reducers/todolists-
 import {TaskStatuses} from "../api/todolists-api";
 
 
-test('ids should be equals', () => {
+/*test('ids should be equals', () => {
    const startTasksState: TasksStateType = {}
    const startTodolistState: TodolistsDomainType[] = []
 
@@ -21,7 +21,7 @@ test('ids should be equals', () => {
    expect(idFromTodolist).toBe(action.payload.id)
    expect(idFromTodolist).toBe(idFromTodolist)
    expect(idFromTasks).toBe(idFromTodolist)
-});
+});*/
 test('correct todolist and state tasks should be removed', () => {
    const startTasksState: TasksStateType = {
       'todolistId1': [

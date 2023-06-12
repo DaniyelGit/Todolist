@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist/Todolist";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {addTodo, getTodolistsTC} from "./redux/actions/actionsTodolists";
+import {addTodo, createTodolistTC, getTodolistsTC} from "./redux/actions/actionsTodolists";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./redux/store";
 import {TodolistsDomainType} from "./redux/reducers/todolists-reducer";
@@ -21,8 +21,8 @@ export const App = () => {
       dispatch(getTodolistsTC())
    }, []);
 
-   const addTodolist = useCallback((titleValue: string) => {
-      dispatch(addTodo(titleValue));
+   const addTodolist = useCallback((title: string) => {
+      dispatch(createTodolistTC(title));
    }, [dispatch]);
 
    const gridStyles = {

@@ -4,14 +4,12 @@ import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {FilterValuesType, TodolistsDomainType} from "../../redux/reducers/todolists-reducer";
 import {Tasks} from "../Tasks/Tasks";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../redux/store";
 import {
-   addTaskAC,
-   changeTaskStatusAC, changeTaskStatusTC,
+   changeTaskStatusTC,
    changeTaskTitleAC, createTaskTC, deleteTaskTC,
    getTasksTC,
-   removeTaskAC, setTasks
 } from "../../redux/actions/actionsTasks";
 import {changeFilterTodo, changeTodoTitle, removeTodo} from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
