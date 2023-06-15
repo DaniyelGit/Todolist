@@ -11,7 +11,7 @@ import {
    changeTaskTitleAC, createTaskTC, deleteTaskTC,
    getTasksTC,
 } from "../../redux/actions/actionsTasks";
-import {changeFilterTodo, changeTodoTitle, removeTodo} from "../../redux/actions/actionsTodolists";
+import {changeFilterTodo, changeTodoTitle, removeTodo, removeTodolistTC} from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
 import {Box, ButtonGroup, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
@@ -62,7 +62,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    }, [id, filter]);
 
    const removeTodolist = useCallback(() => {
-      dispatch(removeTodo(id));
+      dispatch(removeTodolistTC(id));
    }, [id]);
 
    if (filter === 'active') {

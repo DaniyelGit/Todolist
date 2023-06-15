@@ -74,7 +74,7 @@ export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActions
          dispatch(setTodolists(res.data));
          dispatch(setRequestStatus('succeeded'));
       });
-}
+};
 
 export const createTodolistTC = (title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
@@ -82,6 +82,15 @@ export const createTodolistTC = (title: string): AppThunkType => (dispatch: Disp
       .then((res) => {
          console.log(res)
          dispatch(addTodo(res.data.data.item));
+         dispatch(setRequestStatus('succeeded'));
+      })
+};
+
+export const removeTodolistTC = (todoId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+   dispatch(setRequestStatus('loading'));
+   todolistsAPI.deleteTodolist(todoId)
+      .then(res => {
+         dispatch(removeTodo(todoId));
          dispatch(setRequestStatus('succeeded'));
       })
 }
