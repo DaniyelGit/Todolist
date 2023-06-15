@@ -7,7 +7,7 @@ import {Tasks} from "../Tasks/Tasks";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../redux/store";
 import {
-   changeTaskTitleAC, createTaskTC, deleteTaskTC,
+   createTaskTC, deleteTaskTC,
    getTasksTC, updateTaskTC,
 } from "../../redux/actions/actionsTasks";
 import {
@@ -109,8 +109,10 @@ export const Todolist = memo((props: TodolistPropsType) => {
          <StyledBoxButtons>
             <ButtonGroup size={'medium'} variant="contained" aria-label="outlined primary button group">
                <Button onClick={() => changeFilter('all')} color={filter === 'all' ? 'info' : 'primary'}>all</Button>
-               <Button onClick={() => changeFilter('active')} color={filter === 'active' ? 'info' : 'primary'}>active</Button>
-               <Button onClick={() => changeFilter('completed')} color={filter === 'completed' ? 'info' : 'primary'}>completed</Button>
+               <Button onClick={() => changeFilter('active')}
+                       color={filter === 'active' ? 'info' : 'primary'}>active</Button>
+               <Button onClick={() => changeFilter('completed')}
+                       color={filter === 'completed' ? 'info' : 'primary'}>completed</Button>
             </ButtonGroup>
          </StyledBoxButtons>
       </div>

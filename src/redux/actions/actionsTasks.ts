@@ -22,8 +22,6 @@ export enum ACTIONS_TASKS {
 
 export type TasksActionsType = RemoveTaskActionType
    | AddTaskActionType
-   | ChangeTaskStatusActionType
-   | ChangeTaskTitleActionType
    | AddTodoActionType
    | RemoveTodoActionType
    | SetTodolistsType
@@ -33,8 +31,6 @@ export type TasksActionsType = RemoveTaskActionType
 
 type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
 type AddTaskActionType = ReturnType<typeof addTaskAC>;
-type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>;
-type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
 type SetTasksType = ReturnType<typeof setTasks>;
 type UpdateTaskACType = ReturnType<typeof updateTaskAC>;
 
@@ -51,22 +47,6 @@ export const addTaskAC = (todoId: string, task: TaskType) => {
       type: ACTIONS_TASKS.ADD_TASK,
       task,
       todoId,
-   } as const;
-};
-export const changeTaskStatusAC = (todoID: string, taskID: string, status: TaskStatuses) => {
-   return {
-      type: ACTIONS_TASKS.CHANGE_TASK_STATUS,
-      todoID,
-      taskID,
-      status,
-   } as const;
-};
-export const changeTaskTitleAC = (todoID: string, taskID: string, newTitle: string) => {
-   return {
-      type: ACTIONS_TASKS.CHANGE_TASK_TITLE,
-      todoID,
-      taskID,
-      newTitle,
    } as const;
 };
 export const updateTaskAC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType) => {
@@ -114,32 +94,11 @@ export const createTaskTC = (todoId: string, title: string): AppThunkType => (di
          dispatch(setRequestStatus('succeeded'));
       });
 };
-/*
-export const changeTaskStatusTC = (todoId: string, taskId: string, status: TaskStatuses): AppThunkType =>
-   (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
-      const task = getState().tasks[todoId].find(t => t.id === taskId);
-      if (task) {
-         const modal: UpdateTaskModalType = {
-            title: task.title,
-            description: task.description,
-            priority: task.priority,
-            startDate: task.startDate,
-            deadline: task.deadline,
-            status,
-         };
-         dispatch(setRequestStatus('loading'));
-         tasksAPI.updateTask(todoId, taskId, modal)
-            .then(res => {
-               dispatch(changeTaskStatusAC(todoId, taskId, status))
-               dispatch(setRequestStatus('succeeded'));
-            })
-      }
-   };*/
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
    (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
       const task = getState().tasks[todoId].find(t => t.id === taskId);
       if (task) {
-         const modal: UpdateTaskModalType = {
+         const modelForDomain: UpdateTaskModalType = {
             title: task.title,
             description: task.description,
             priority: task.priority,
@@ -149,7 +108,7 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
             ...model,
          };
          dispatch(setRequestStatus('loading'));
-         tasksAPI.updateTask(todoId, taskId, modal)
+         tasksAPI.updateTask(todoId, taskId, modelForDomain)
             .then(res => {
                dispatch(updateTaskAC(todoId, taskId, model))
                dispatch(setRequestStatus('succeeded'));

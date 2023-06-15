@@ -1,4 +1,4 @@
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../redux/actions/actionsTasks";
+import {addTaskAC, removeTaskAC} from "../redux/actions/actionsTasks";
 import {addTodo, removeTodo} from "../redux/actions/actionsTodolists";
 import {TasksReducer, TasksStateType} from "../redux/reducers/tasks-reducer";
 import {TaskStatuses} from "../api/todolists-api";
@@ -105,23 +105,23 @@ test('correct task should be deleted from correct array', () => {
    expect(endState['todolistId2'][3].status).toBe(TaskStatuses.New)
 });*/
 
-test('status of specified task should be changed', () => {
+/*test('status of specified task should be changed', () => {
    const action = changeTaskStatusAC('todolistId2', '2', TaskStatuses.New);
 
    const endState = TasksReducer(startState, action)
 
    expect(endState['todolistId1'][1].status).toBe(TaskStatuses.Completed);
    expect(endState['todolistId2'][1].status).toBe(TaskStatuses.New);
-});
+});*/
 
-test('title of specified task should be changed', () => {
+/*test('title of specified task should be changed', () => {
    const action = changeTaskTitleAC('todolistId2', '2', 'coffee');
 
    const endState = TasksReducer(startState, action)
 
    expect(endState['todolistId1'][1].title).toBe('JS');
    expect(endState['todolistId2'][1].title).toBe('coffee');
-});
+});*/
 
 /*test('new array should be added when new todolist is added', () => {
    const action = addTodo('new todolist')
