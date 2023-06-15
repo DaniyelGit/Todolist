@@ -94,3 +94,12 @@ export const removeTodolistTC = (todoId: string): AppThunkType => (dispatch: Dis
          dispatch(setRequestStatus('succeeded'));
       })
 }
+
+export const changeTitleTodolist = (todoId: string, title: string) => (dispatch: Dispatch<AppActionsType>) => {
+   dispatch(setRequestStatus('loading'));
+   todolistsAPI.updateTodolistTitle(todoId, title)
+      .then(res => {
+         dispatch(changeTodoTitle(todoId, title));
+         dispatch(setRequestStatus('succeeded'));
+      })
+};
