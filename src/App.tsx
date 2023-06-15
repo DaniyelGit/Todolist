@@ -6,7 +6,7 @@ import {addTodo, createTodolistTC, getTodolistsTC} from "./redux/actions/actions
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./redux/store";
 import {TodolistsDomainType} from "./redux/reducers/todolists-reducer";
-import {Card, CardContent, Container, Paper} from "@mui/material";
+import {Box, Container, Paper} from "@mui/material";
 import {Header} from "./components/Header/Header";
 import Grid from '@mui/material/Unstable_Grid2';
 
@@ -29,7 +29,7 @@ export const App = () => {
       <div className="App">
          <Header/>
          <div style={{marginTop: 20}}>
-            <Container maxWidth={false}>
+            <Box style={{padding: '0px 20px'}}>
                <Grid container style={{padding: '20px'}}>
                   <AddItemForm addItem={addTodolist}/>
                </Grid>
@@ -48,7 +48,7 @@ export const App = () => {
                      })
                   }
                </Grid>
-            </Container>
+            </Box>
          </div>
       </div>
    );
