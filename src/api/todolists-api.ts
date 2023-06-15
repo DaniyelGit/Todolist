@@ -82,6 +82,11 @@ export type UpdateTaskModalType = {
    deadline: string
 };
 
+export type UpdateDomainTaskModalType = {
+   title?: string
+   status?: number
+};
+
 type ResponseType<T = {}> = {
    resultCode: number
    messages: string[]

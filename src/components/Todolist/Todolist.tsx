@@ -7,15 +7,12 @@ import {Tasks} from "../Tasks/Tasks";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../redux/store";
 import {
-   changeTaskStatusTC,
    changeTaskTitleAC, createTaskTC, deleteTaskTC,
-   getTasksTC,
+   getTasksTC, updateTaskTC,
 } from "../../redux/actions/actionsTasks";
 import {
    changeFilterTodo,
    changeTitleTodolist,
-   changeTodoTitle,
-   removeTodo,
    removeTodolistTC
 } from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
@@ -47,7 +44,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    }, [id]);
 
    const changeTaskTitle = useCallback((taskID: string, newTitle: string) => {
-      dispatch(changeTaskTitleAC(id, taskID, newTitle));
+      dispatch(updateTaskTC(id, taskID, {title: newTitle}));
    }, [id]);
 
    const changeTodolistTitle = useCallback((newTitleTodolist: string) => {
@@ -59,7 +56,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    }, [id]);
 
    const changeStatusTask = useCallback((taskID: string, status: TaskStatuses) => {
-      dispatch(changeTaskStatusTC(id, taskID, status));
+      dispatch(updateTaskTC(id, taskID, {status: status}));
    }, [id]);
 
 

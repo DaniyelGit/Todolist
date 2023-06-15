@@ -61,6 +61,12 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
             [action.todoId]: action.tasks
          }
       }
+      case ACTIONS_TASKS.UPDATE_TASK: {
+         return {
+            ...state,
+            [action.todoId]: state[action.todoId].map(t => t.id === action.taskId ? {...t, ...action.payload} : t),
+         }
+      }
       default: {
          return state;
       }
