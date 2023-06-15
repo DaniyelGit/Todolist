@@ -6,10 +6,9 @@ import {addTodo, createTodolistTC, getTodolistsTC} from "./redux/actions/actions
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./redux/store";
 import {TodolistsDomainType} from "./redux/reducers/todolists-reducer";
-import {Card, CardContent, Container} from "@mui/material";
+import {Card, CardContent, Container, Paper} from "@mui/material";
 import {Header} from "./components/Header/Header";
 import Grid from '@mui/material/Unstable_Grid2';
-
 
 
 export const App = () => {
@@ -25,37 +24,30 @@ export const App = () => {
       dispatch(createTodolistTC(title));
    }, [dispatch]);
 
-   const gridStyles = {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(4, 1fr)',
-      gap: '20px',
-   }
 
    return (
       <div className="App">
          <Header/>
          <div style={{marginTop: 20}}>
-            <Container maxWidth="xl">
-               <div style={{marginBottom: 50}}>
+            <Container maxWidth={false}>
+               <Grid container style={{padding: '20px'}}>
                   <AddItemForm addItem={addTodolist}/>
-               </div>
-                  <Grid container sx={gridStyles}>
-                     {
-                        todolists.map(tl => {
-                           return (
-                              <Grid key={tl.id}>
-                                 <Card>
-                                    <CardContent>
-                                       <Todolist
-                                          todolist={tl}
-                                       />
-                                    </CardContent>
-                                 </Card>
-                              </Grid>
-                           );
-                        })
-                     }
-                  </Grid>
+               </Grid>
+               <Grid container spacing={3}>
+                  {
+                     todolists.map(tl => {
+                        return (
+                           <Grid key={tl.id}>
+                              <Paper style={{padding: '10px'}}>
+                                 <Todolist
+                                    todolist={tl}
+                                 />
+                              </Paper>
+                           </Grid>
+                        );
+                     })
+                  }
+               </Grid>
             </Container>
          </div>
       </div>
