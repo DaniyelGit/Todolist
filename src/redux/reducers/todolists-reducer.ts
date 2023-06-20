@@ -1,9 +1,11 @@
 import {ACTIONS_TODOLISTS, TodolistsActionsType} from "../actions/actionsTodolists";
 import {TodolistType} from "../../api/todolists-api";
+import {RequestStatusType} from "./app-reducer";
 
 
 export type TodolistsDomainType = TodolistType & {
    filter: FilterValuesType
+   entityStatus: RequestStatusType
 };
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
@@ -19,6 +21,7 @@ export const TodolistReducer = (state: TodolistsDomainType[] = initialStateTodol
          const newTodolist: TodolistsDomainType = {
             ...action.todolist,
             filter: 'all',
+            entityStatus: 'idle',
          }
          return [newTodolist, ...state];
       }
@@ -33,7 +36,10 @@ export const TodolistReducer = (state: TodolistsDomainType[] = initialStateTodol
             : tl);
       }
       case ACTIONS_TODOLISTS.SET_TODOLISTS: {
-         return action.todolists.map(tl => ({...tl, filter: 'all'}));
+         return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: 'idle'}));
+      }
+      case ACTIONS_TODOLISTS.SET_ENTITY_STATUS: {
+         return state.map(tl => tl.id === action.todoId ? {...tl, entityStatus: action.entityStatus} : tl);
       }
       default: {
          return state;

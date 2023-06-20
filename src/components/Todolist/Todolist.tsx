@@ -30,7 +30,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
       todolist,
    } = props;
 
-   const {id, title, filter} = todolist;
+   const {id, title, filter, entityStatus} = todolist;
 
    useEffect(() => {
       dispatch(getTasksTC(id));
@@ -96,7 +96,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
                   callBack={changeTodolistTitle}
                />
             </h3>
-            <IconButton aria-label="delete" color={"error"} onClick={removeTodolist}>
+            <IconButton disabled={entityStatus === 'loading'} color={"error"} onClick={removeTodolist}>
                <Delete/>
             </IconButton>
          </div>

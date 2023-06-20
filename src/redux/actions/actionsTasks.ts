@@ -8,7 +8,7 @@ import {
 } from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
-import {setRequestStatus} from "../reducers/app-reducer";
+import {setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
 
 
 export enum ACTIONS_TASKS {
@@ -26,7 +26,8 @@ export type TasksActionsType = RemoveTaskActionType
    | RemoveTodoActionType
    | SetTodolistsType
    | SetTasksType
-   | UpdateTaskACType;
+   | UpdateTaskACType
+   | SetErrorType;
 
 
 type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
@@ -86,13 +87,32 @@ export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType => (d
          }
       });
 };
+
+export enum  ResultCode {
+   OK = 0,
+   ERROR = 1,
+   ERROR_CAPTCHA = 10,
+}
+
 export const createTaskTC = (todoId: string, title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
    tasksAPI.createTask(todoId, title)
       .then(res => {
-         dispatch(addTaskAC(todoId, res.data.data.item));
-         dispatch(setRequestStatus('succeeded'));
-      });
+         if (res.data.resultCode === ResultCode.OK) {
+            const task = res.data.data.item;
+            const action = addTaskAC(todoId, task);
+            dispatch(action);
+         }
+         else {
+            if (res.data.messages.length) {
+               dispatch(setErrorAC(res.data.messages[0]))
+            }
+            else {
+               dispatch(setErrorAC('Error'))
+            }
+         }
+         dispatch(setRequestStatus('idle'));
+      })
 };
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
    (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {

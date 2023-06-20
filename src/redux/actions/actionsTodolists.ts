@@ -3,7 +3,7 @@ import {v1} from "uuid";
 import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunkType} from "../store";
-import {setRequestStatus, SetRequestStatusType} from "../reducers/app-reducer";
+import {RequestStatusType, setErrorAC, setRequestStatus, SetRequestStatusType} from "../reducers/app-reducer";
 
 
 export enum ACTIONS_TODOLISTS {
@@ -12,6 +12,7 @@ export enum ACTIONS_TODOLISTS {
    CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
    CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
    SET_TODOLISTS = 'SET_TODOLISTS',
+   SET_ENTITY_STATUS = 'SET_ENTITY_STATUS',
 }
 
 
@@ -20,13 +21,15 @@ export type TodolistsActionsType = RemoveTodoActionType
    | ChangeTodoTitleActionType
    | ChangeFilterTodoActionType
    | SetTodolistsType
-   | SetRequestStatusType;
+   | SetRequestStatusType
+   | SetEntityStatus;
 
 type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodo>;
 type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitle>;
 export type AddTodoActionType = ReturnType<typeof addTodo>;
 export type RemoveTodoActionType = ReturnType<typeof removeTodo>;
 export type SetTodolistsType = ReturnType<typeof setTodolists>;
+export type SetEntityStatus = ReturnType<typeof setEntityStatusAC>;
 
 // ActionsCreator
 export const removeTodo = (id: string) => {
@@ -65,6 +68,13 @@ export const setTodolists = (todolists: TodolistType[]) => {
       todolists,
    } as const;
 };
+export const setEntityStatusAC = (todoId: string, entityStatus: RequestStatusType) => {
+   return {
+      type: ACTIONS_TODOLISTS.SET_ENTITY_STATUS,
+      todoId,
+      entityStatus,
+   } as const;
+};
 
 // ThunksCreator
 export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
@@ -88,10 +98,17 @@ export const createTodolistTC = (title: string): AppThunkType => (dispatch: Disp
 
 export const removeTodolistTC = (todoId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
+   dispatch(setEntityStatusAC(todoId, 'loading'));
    todolistsAPI.deleteTodolist(todoId)
       .then(res => {
          dispatch(removeTodo(todoId));
          dispatch(setRequestStatus('succeeded'));
+      })
+      .catch((e) => {
+         console.log(e)
+         dispatch(setRequestStatus('failed'));
+         dispatch(setEntityStatusAC(todoId, 'failed'));
+         dispatch(setErrorAC(e.message))
       })
 }
 
