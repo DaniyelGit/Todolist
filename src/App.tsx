@@ -2,13 +2,14 @@ import React, {useCallback, useEffect} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist/Todolist";
 import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {addTodo, createTodolistTC, getTodolistsTC} from "./redux/actions/actionsTodolists";
+import {createTodolistTC, getTodolistsTC} from "./redux/actions/actionsTodolists";
 import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "./redux/store";
 import {TodolistsDomainType} from "./redux/reducers/todolists-reducer";
-import {Box, Container, Paper} from "@mui/material";
+import {Box, Paper} from "@mui/material";
 import {Header} from "./components/Header/Header";
 import Grid from '@mui/material/Unstable_Grid2';
+import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 
 
 export const App = () => {
@@ -50,6 +51,7 @@ export const App = () => {
                </Grid>
             </Box>
          </div>
+         <ErrorSnackbar/>
       </div>
    );
 }
