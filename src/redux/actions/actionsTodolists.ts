@@ -5,32 +5,6 @@ import {Dispatch} from "redux";
 import {AppActionsType, AppThunkType} from "../store";
 import {RequestStatusType, setErrorAC, setRequestStatus, SetRequestStatusType} from "../reducers/app-reducer";
 
-
-export enum ACTIONS_TODOLISTS {
-   REMOVE_TODOLIST = 'REMOVE-TODOLIST',
-   ADD_TODOLIST = 'ADD-TODOLIST',
-   CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
-   CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
-   SET_TODOLISTS = 'SET_TODOLISTS',
-   SET_ENTITY_STATUS = 'SET_ENTITY_STATUS',
-}
-
-
-export type TodolistsActionsType = RemoveTodoActionType
-   | AddTodoActionType
-   | ChangeTodoTitleActionType
-   | ChangeFilterTodoActionType
-   | SetTodolistsType
-   | SetRequestStatusType
-   | SetEntityStatus;
-
-type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodo>;
-type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitle>;
-export type AddTodoActionType = ReturnType<typeof addTodo>;
-export type RemoveTodoActionType = ReturnType<typeof removeTodo>;
-export type SetTodolistsType = ReturnType<typeof setTodolists>;
-export type SetEntityStatus = ReturnType<typeof setEntityStatusAC>;
-
 // ActionsCreator
 export const removeTodo = (id: string) => {
    return {
@@ -105,7 +79,6 @@ export const removeTodolistTC = (todoId: string): AppThunkType => (dispatch: Dis
          dispatch(setRequestStatus('succeeded'));
       })
       .catch((e) => {
-         console.log(e)
          dispatch(setRequestStatus('failed'));
          dispatch(setEntityStatusAC(todoId, 'failed'));
          dispatch(setErrorAC(e.message))
@@ -120,3 +93,29 @@ export const changeTitleTodolist = (todoId: string, title: string) => (dispatch:
          dispatch(setRequestStatus('succeeded'));
       })
 };
+
+
+export enum ACTIONS_TODOLISTS {
+   REMOVE_TODOLIST = 'REMOVE-TODOLIST',
+   ADD_TODOLIST = 'ADD-TODOLIST',
+   CHANGE_TODOLIST_TITLE = 'CHANGE-TODOLIST-TITLE',
+   CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
+   SET_TODOLISTS = 'SET_TODOLISTS',
+   SET_ENTITY_STATUS = 'SET_ENTITY_STATUS',
+}
+
+
+export type TodolistsActionsType = RemoveTodoActionType
+   | AddTodoActionType
+   | ChangeTodoTitleActionType
+   | ChangeFilterTodoActionType
+   | SetTodolistsType
+   | SetRequestStatusType
+   | SetEntityStatus;
+
+type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodo>;
+type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitle>;
+export type AddTodoActionType = ReturnType<typeof addTodo>;
+export type RemoveTodoActionType = ReturnType<typeof removeTodo>;
+export type SetTodolistsType = ReturnType<typeof setTodolists>;
+export type SetEntityStatus = ReturnType<typeof setEntityStatusAC>;

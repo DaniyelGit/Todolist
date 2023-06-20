@@ -9,6 +9,7 @@ import {
 import {Dispatch} from "redux";
 import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
 import {setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
+import {handleServerNetworkError} from "../../utils/error-utils";
 
 
 export enum ACTIONS_TASKS {
@@ -130,8 +131,21 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
          dispatch(setRequestStatus('loading'));
          tasksAPI.updateTask(todoId, taskId, modelForDomain)
             .then(res => {
-               dispatch(updateTaskAC(todoId, taskId, model))
-               dispatch(setRequestStatus('succeeded'));
+               if (res.data.resultCode === ResultCode.OK) {
+                  dispatch(updateTaskAC(todoId, taskId, model))
+                  dispatch(setRequestStatus('succeeded'));
+               }
+               else {
+                  if (res.data.messages.length) {
+                     dispatch(setErrorAC(res.data.messages[0]));
+                  }
+                  else {
+                     dispatch(setErrorAC('Error'));
+                  }
+               }
+            })
+            .catch((e) => {
+               handleServerNetworkError(dispatch, e.message)
             })
       }
    };
