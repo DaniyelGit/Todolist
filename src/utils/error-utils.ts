@@ -12,7 +12,7 @@ export const handleServerAppError = <T>(dispatch: Dispatch<ErrorUtilsDispatchTyp
       dispatch(setErrorAC(data.messages[0]));
    }
    else {
-      dispatch(setErrorAC('Error'));
+      dispatch(setErrorAC('Some error occurred'));
    }
 }
 

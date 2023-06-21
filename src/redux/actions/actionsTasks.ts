@@ -83,7 +83,6 @@ export const createTaskTC = (todoId: string, title: string): AppThunkType => (di
          if (res.data.resultCode === ResultCode.OK) {
             const task = res.data.data.item;
             const action = addTaskAC(todoId, task);
-            dispatch(setRequestStatus('idle'));
             dispatch(action);
          } else {
             handleServerAppError<{ item: TaskType }>(dispatch, res.data);
@@ -91,6 +90,9 @@ export const createTaskTC = (todoId: string, title: string): AppThunkType => (di
       })
       .catch((e: AxiosError) => {
          handleServerNetworkError(dispatch, e.message);
+      })
+      .finally(() => {
+         dispatch(setRequestStatus('idle'));
       })
 };
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
