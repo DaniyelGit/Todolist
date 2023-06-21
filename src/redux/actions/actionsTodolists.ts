@@ -1,9 +1,11 @@
 import {FilterValuesType, TodolistsDomainType} from "../reducers/todolists-reducer";
 import {v1} from "uuid";
-import {todolistsAPI, TodolistType} from "../../api/todolists-api";
+import {TaskType, todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunkType} from "../store";
 import {RequestStatusType, setErrorAC, setRequestStatus, SetRequestStatusType} from "../reducers/app-reducer";
+import {ResultCode} from "./actionsTasks";
+import {handleServerAppError} from "../../utils/error-utils";
 
 // ActionsCreator
 export const removeTodo = (id: string) => {
@@ -64,9 +66,13 @@ export const createTodolistTC = (title: string): AppThunkType => (dispatch: Disp
    dispatch(setRequestStatus('loading'));
    todolistsAPI.createTodolist(title)
       .then((res) => {
-         console.log(res)
-         dispatch(addTodo(res.data.data.item));
-         dispatch(setRequestStatus('succeeded'));
+         if (res.data.resultCode === ResultCode.OK) {
+            dispatch(addTodo(res.data.data.item));
+            dispatch(setRequestStatus('succeeded'));
+         }
+         else {
+            handleServerAppError<{item: TodolistType}>(dispatch, res.data)
+         }
       })
 };
 

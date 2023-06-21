@@ -1,22 +1,20 @@
 import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {
    tasksAPI,
-   TaskStatuses,
    TaskType,
    UpdateDomainTaskModalType,
    UpdateTaskModalType
 } from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
-import {setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
-import {handleServerNetworkError} from "../../utils/error-utils";
+import {SetErrorType, setRequestStatus} from "../reducers/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {AxiosError, isAxiosError} from "axios";
 
 
 export enum ACTIONS_TASKS {
    REMOVE_TASK = 'REMOVE-TASK',
    ADD_TASK = 'ADD-TASK',
-   CHANGE_TASK_STATUS = 'CHANGE-TASK-STATUS',
-   CHANGE_TASK_TITLE = 'CHANGE-TASK-TITLE',
    SET_TASKS = 'SET_TASKS',
    UPDATE_TASK = 'UPDATE_TASK',
 }
@@ -89,11 +87,12 @@ export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType => (d
       });
 };
 
-export enum  ResultCode {
+export enum ResultCode {
    OK = 0,
    ERROR = 1,
    ERROR_CAPTCHA = 10,
 }
+
 
 export const createTaskTC = (todoId: string, title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
@@ -102,21 +101,19 @@ export const createTaskTC = (todoId: string, title: string): AppThunkType => (di
          if (res.data.resultCode === ResultCode.OK) {
             const task = res.data.data.item;
             const action = addTaskAC(todoId, task);
+            dispatch(setRequestStatus('idle'));
             dispatch(action);
+         } else {
+            handleServerAppError<{ item: TaskType }>(dispatch, res.data);
          }
-         else {
-            if (res.data.messages.length) {
-               dispatch(setErrorAC(res.data.messages[0]))
-            }
-            else {
-               dispatch(setErrorAC('Error'))
-            }
-         }
-         dispatch(setRequestStatus('idle'));
+      })
+      .catch((e: AxiosError) => {
+         handleServerNetworkError(dispatch, e.message);
       })
 };
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
-   (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
+   async (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
+      dispatch(setRequestStatus('loading'));
       const task = getState().tasks[todoId].find(t => t.id === taskId);
       if (task) {
          const modelForDomain: UpdateTaskModalType = {
@@ -128,24 +125,20 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
             status: task.status,
             ...model,
          };
-         dispatch(setRequestStatus('loading'));
-         tasksAPI.updateTask(todoId, taskId, modelForDomain)
-            .then(res => {
-               if (res.data.resultCode === ResultCode.OK) {
-                  dispatch(updateTaskAC(todoId, taskId, model))
-                  dispatch(setRequestStatus('succeeded'));
-               }
-               else {
-                  if (res.data.messages.length) {
-                     dispatch(setErrorAC(res.data.messages[0]));
-                  }
-                  else {
-                     dispatch(setErrorAC('Error'));
-                  }
-               }
-            })
-            .catch((e) => {
+
+         try {
+            const res = await tasksAPI.updateTask(todoId, taskId, modelForDomain);
+
+            if (res.data.resultCode === ResultCode.OK) {
+               dispatch(updateTaskAC(todoId, taskId, model))
+               dispatch(setRequestStatus('succeeded'));
+            } else {
+               handleServerAppError<{ item: TaskType }>(dispatch, res.data);
+            }
+         } catch (e) {
+            if (isAxiosError(e)) {
                handleServerNetworkError(dispatch, e.message)
-            })
+            }
+         }
       }
    };
