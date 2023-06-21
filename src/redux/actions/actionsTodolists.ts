@@ -3,24 +3,30 @@ import {v1} from "uuid";
 import {TaskType, todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunkType} from "../store";
-import {RequestStatusType, setErrorAC, setRequestStatus, SetRequestStatusType} from "../reducers/app-reducer";
-import {ResultCode} from "./actionsTasks";
+import {
+   RequestStatusType,
+   ResultCode,
+   setErrorAC,
+   setRequestStatus,
+   SetRequestStatusType
+} from "../reducers/app-reducer";
+
 import {handleServerAppError} from "../../utils/error-utils";
 
 // ActionsCreator
-export const removeTodo = (id: string) => {
+export const removeTodoAC = (id: string) => {
    return {
       type: ACTIONS_TODOLISTS.REMOVE_TODOLIST,
       payload: id,
    } as const;
 };
-export const addTodo = (todolist: TodolistType) => {
+export const addTodoAC = (todolist: TodolistType) => {
    return {
       type: ACTIONS_TODOLISTS.ADD_TODOLIST,
       todolist,
    } as const;
 };
-export const changeTodoTitle = (id: string, newTodolistTitle: string) => {
+export const changeTodoTitleAC = (id: string, newTodolistTitle: string) => {
    return {
       type: ACTIONS_TODOLISTS.CHANGE_TODOLIST_TITLE,
       payload: {
@@ -29,7 +35,7 @@ export const changeTodoTitle = (id: string, newTodolistTitle: string) => {
       }
    } as const;
 };
-export const changeFilterTodo = (id: string, valueFilter: FilterValuesType) => {
+export const changeFilterTodoAC = (id: string, valueFilter: FilterValuesType) => {
    return {
       type: ACTIONS_TODOLISTS.CHANGE_TODOLIST_FILTER,
       payload: {
@@ -38,7 +44,7 @@ export const changeFilterTodo = (id: string, valueFilter: FilterValuesType) => {
       }
    } as const;
 };
-export const setTodolists = (todolists: TodolistType[]) => {
+export const setTodolistsAC = (todolists: TodolistType[]) => {
    return {
       type: ACTIONS_TODOLISTS.SET_TODOLISTS,
       todolists,
@@ -57,7 +63,7 @@ export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActions
    dispatch(setRequestStatus('loading'));
    todolistsAPI.getTodolists()
       .then(res => {
-         dispatch(setTodolists(res.data));
+         dispatch(setTodolistsAC(res.data));
          dispatch(setRequestStatus('succeeded'));
       });
 };
@@ -67,7 +73,7 @@ export const createTodolistTC = (title: string): AppThunkType => (dispatch: Disp
    todolistsAPI.createTodolist(title)
       .then((res) => {
          if (res.data.resultCode === ResultCode.OK) {
-            dispatch(addTodo(res.data.data.item));
+            dispatch(addTodoAC(res.data.data.item));
             dispatch(setRequestStatus('succeeded'));
          }
          else {
@@ -81,7 +87,7 @@ export const removeTodolistTC = (todoId: string): AppThunkType => (dispatch: Dis
    dispatch(setEntityStatusAC(todoId, 'loading'));
    todolistsAPI.deleteTodolist(todoId)
       .then(res => {
-         dispatch(removeTodo(todoId));
+         dispatch(removeTodoAC(todoId));
          dispatch(setRequestStatus('succeeded'));
       })
       .catch((e) => {
@@ -95,7 +101,7 @@ export const changeTitleTodolist = (todoId: string, title: string) => (dispatch:
    dispatch(setRequestStatus('loading'));
    todolistsAPI.updateTodolistTitle(todoId, title)
       .then(res => {
-         dispatch(changeTodoTitle(todoId, title));
+         dispatch(changeTodoTitleAC(todoId, title));
          dispatch(setRequestStatus('succeeded'));
       })
 };
@@ -119,9 +125,9 @@ export type TodolistsActionsType = RemoveTodoActionType
    | SetRequestStatusType
    | SetEntityStatus;
 
-type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodo>;
-type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitle>;
-export type AddTodoActionType = ReturnType<typeof addTodo>;
-export type RemoveTodoActionType = ReturnType<typeof removeTodo>;
-export type SetTodolistsType = ReturnType<typeof setTodolists>;
+type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodoAC>;
+type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitleAC>;
+export type AddTodoActionType = ReturnType<typeof addTodoAC>;
+export type RemoveTodoActionType = ReturnType<typeof removeTodoAC>;
+export type SetTodolistsType = ReturnType<typeof setTodolistsAC>;
 export type SetEntityStatus = ReturnType<typeof setEntityStatusAC>;

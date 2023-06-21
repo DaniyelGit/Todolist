@@ -1,5 +1,11 @@
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
+export enum ResultCode {
+   OK = 0,
+   ERROR = 1,
+   ERROR_CAPTCHA = 10,
+}
+
 const initialState = {
    status: 'idle' as RequestStatusType,
    error: null as null | string,

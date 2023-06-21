@@ -7,32 +7,10 @@ import {
 } from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
-import {SetErrorType, setRequestStatus} from "../reducers/app-reducer";
+import {ResultCode, setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {AxiosError, isAxiosError} from "axios";
 
-
-export enum ACTIONS_TASKS {
-   REMOVE_TASK = 'REMOVE-TASK',
-   ADD_TASK = 'ADD-TASK',
-   SET_TASKS = 'SET_TASKS',
-   UPDATE_TASK = 'UPDATE_TASK',
-}
-
-export type TasksActionsType = RemoveTaskActionType
-   | AddTaskActionType
-   | AddTodoActionType
-   | RemoveTodoActionType
-   | SetTodolistsType
-   | SetTasksType
-   | UpdateTaskACType
-   | SetErrorType;
-
-
-type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
-type AddTaskActionType = ReturnType<typeof addTaskAC>;
-type SetTasksType = ReturnType<typeof setTasks>;
-type UpdateTaskACType = ReturnType<typeof updateTaskAC>;
 
 // ActionsCreator
 export const removeTaskAC = (todoID: string, taskID: string) => {
@@ -59,7 +37,7 @@ export const updateTaskAC = (todoId: string, taskId: string, model: UpdateDomain
       }
    } as const;
 }
-export const setTasks = (todoId: string, tasks: TaskType[]) => {
+export const setTasksAC = (todoId: string, tasks: TaskType[]) => {
    return {
       type: ACTIONS_TASKS.SET_TASKS,
       todoId,
@@ -68,13 +46,21 @@ export const setTasks = (todoId: string, tasks: TaskType[]) => {
 };
 
 // ThunksCreator
-export const getTasksTC = (todoId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+export const getTasksTC = (todoId: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
-   tasksAPI.getTasks(todoId)
+   try {
+      const res = await tasksAPI.getTasks(todoId);
+      dispatch(setTasksAC(todoId, res.data.items));
+      dispatch(setRequestStatus('succeeded'));
+   } catch (e) {
+      // console.log(e.message)
+   }
+   /*tasksAPI.getTasks(todoId)
+
       .then(res => {
-         dispatch(setTasks(todoId, res.data.items));
+         dispatch(setTasksAC(todoId, res.data.items));
          dispatch(setRequestStatus('succeeded'));
-      });
+      });*/
 };
 export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
@@ -83,15 +69,11 @@ export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType => (d
          if (res.data.resultCode === 0) {
             dispatch(removeTaskAC(todoId, taskId));
             dispatch(setRequestStatus('succeeded'));
+         } else {
+            handleServerAppError(dispatch, res.data);
          }
       });
 };
-
-export enum ResultCode {
-   OK = 0,
-   ERROR = 1,
-   ERROR_CAPTCHA = 10,
-}
 
 
 export const createTaskTC = (todoId: string, title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
@@ -136,9 +118,36 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
                handleServerAppError<{ item: TaskType }>(dispatch, res.data);
             }
          } catch (e) {
+            console.log(e)
             if (isAxiosError(e)) {
                handleServerNetworkError(dispatch, e.message)
+            } else {
+               const err = e as Error
+               const message = err.message
             }
          }
       }
    };
+
+
+export enum ACTIONS_TASKS {
+   REMOVE_TASK = 'REMOVE-TASK',
+   ADD_TASK = 'ADD-TASK',
+   SET_TASKS = 'SET_TASKS',
+   UPDATE_TASK = 'UPDATE_TASK',
+}
+
+export type TasksActionsType = RemoveTaskActionType
+   | AddTaskActionType
+   | AddTodoActionType
+   | RemoveTodoActionType
+   | SetTodolistsType
+   | SetTasksType
+   | UpdateTaskACType
+   | SetErrorType;
+
+
+type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
+type AddTaskActionType = ReturnType<typeof addTaskAC>;
+type SetTasksType = ReturnType<typeof setTasksAC>;
+type UpdateTaskACType = ReturnType<typeof updateTaskAC>;

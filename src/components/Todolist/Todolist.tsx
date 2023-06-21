@@ -11,7 +11,7 @@ import {
    getTasksTC, updateTaskTC,
 } from "../../redux/actions/actionsTasks";
 import {
-   changeFilterTodo,
+   changeFilterTodoAC,
    changeTitleTodolist,
    removeTodolistTC
 } from "../../redux/actions/actionsTodolists";
@@ -61,7 +61,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
 
 
    const changeFilter = useCallback((valueFilter: FilterValuesType) => {
-      dispatch(changeFilterTodo(id, valueFilter));
+      dispatch(changeFilterTodoAC(id, valueFilter));
    }, [id, filter]);
 
    const removeTodolist = useCallback(() => {
