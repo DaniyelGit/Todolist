@@ -16,17 +16,21 @@ export const EditableSpan = memo((props: EditableSpanPropsType) => {
    const [newTitle, setNewTitle] = React.useState<string>(oldTitle);
 
    const editHandler = () => {
-      setEdit(!edit);
-      callBack(newTitle);
+      setEdit(true);
    };
 
    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setNewTitle(e.currentTarget.value);
    };
 
+   const sendTaskTitleHandler = () => {
+      setEdit(false);
+      callBack(newTitle);
+   }
+
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-         editHandler();
+         sendTaskTitleHandler();
       }
    }
 
@@ -36,7 +40,7 @@ export const EditableSpan = memo((props: EditableSpanPropsType) => {
                       value={newTitle}
                       onChange={onChangeHandler}
                       autoFocus
-                      onBlur={editHandler}
+                      onBlur={sendTaskTitleHandler}
                       onKeyPress={onKeyPressHandler}
                       variant={'standard'}
                       size={'small'}

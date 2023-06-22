@@ -1,6 +1,5 @@
-import {FilterValuesType, TodolistsDomainType} from "../reducers/todolists-reducer";
-import {v1} from "uuid";
-import {TaskType, todolistsAPI, TodolistType} from "../../api/todolists-api";
+import {FilterValuesType} from "../reducers/todolists-reducer";
+import {todolistsAPI, TodolistType} from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppThunkType} from "../store";
 import {

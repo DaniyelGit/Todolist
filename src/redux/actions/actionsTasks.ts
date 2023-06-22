@@ -6,7 +6,7 @@ import {
    UpdateTaskModalType
 } from "../../api/todolists-api";
 import {Dispatch} from "redux";
-import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
+import {AppActionsType, AppDispatchType, AppRootStateType, AppThunkType, useAppDispatch} from "../store";
 import {ResultCode, setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {AxiosError, isAxiosError} from "axios";
@@ -95,6 +95,7 @@ export const createTaskTC = (todoId: string, title: string): AppThunkType => (di
          dispatch(setRequestStatus('idle'));
       })
 };
+
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
    async (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
       dispatch(setRequestStatus('loading'));
@@ -112,7 +113,6 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
 
          try {
             const res = await tasksAPI.updateTask(todoId, taskId, modelForDomain);
-
             if (res.data.resultCode === ResultCode.OK) {
                dispatch(updateTaskAC(todoId, taskId, model))
                dispatch(setRequestStatus('succeeded'));
@@ -120,7 +120,6 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
                handleServerAppError<{ item: TaskType }>(dispatch, res.data);
             }
          } catch (e) {
-            console.log(e)
             if (isAxiosError(e)) {
                handleServerNetworkError(dispatch, e.message)
             } else {
