@@ -4,16 +4,11 @@ import {Button, TextField} from "@mui/material";
 import Add from '@mui/icons-material/Add';
 
 
-
-type AddItemFormPropsType = {
+export type AddItemFormPropsType = {
    addItem: (titleValue: string) => void
 }
 
-export const AddItemForm = memo((props: AddItemFormPropsType) => {
-
-   const {
-      addItem
-   } = props;
+export const AddItemForm: React.FC<AddItemFormPropsType> = memo(({addItem}) => {
 
    const [valueInput, setValueInput] = useState<string>('');
    const [error, setError] = useState<boolean>(false);
@@ -44,6 +39,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
       }
    };
 
+   // @ts-ignore
    return (
       <div className={s.wrapperAddItemForm}>
          <TextField

@@ -13,7 +13,7 @@ import {
 
 import {handleServerAppError} from "../../utils/error-utils";
 
-// ActionsCreator
+// ********************** ActionsCreator ***********************
 export const removeTodoAC = (id: string) => {
    return {
       type: ACTIONS_TODOLISTS.REMOVE_TODOLIST,
@@ -58,7 +58,7 @@ export const setEntityStatusAC = (todoId: string, entityStatus: RequestStatusTyp
    } as const;
 };
 
-// ThunksCreator
+// ********************** ThunksCreator ****************************
 export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
    todolistsAPI.getTodolists()
