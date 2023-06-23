@@ -10,7 +10,8 @@ import {
    SetRequestStatusType
 } from "../reducers/app-reducer";
 
-import {handleServerAppError} from "../../utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {isAxiosError} from "axios";
 
 // ********************** ActionsCreator ***********************
 export const removeTodoAC = (id: string) => {
@@ -58,51 +59,74 @@ export const setEntityStatusAC = (todoId: string, entityStatus: RequestStatusTyp
 };
 
 // ********************** ThunksCreator ****************************
-export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+export const getTodolistsTC = (): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
-   todolistsAPI.getTodolists()
-      .then(res => {
-         dispatch(setTodolistsAC(res.data));
-         dispatch(setRequestStatus('succeeded'));
-      });
+   try {
+      const res = await todolistsAPI.getTodolists();
+      dispatch(setTodolistsAC(res.data));
+   } catch (e) {
+      if (isAxiosError(e)) {
+         handleServerNetworkError(dispatch, e.message)
+      }
+   } finally {
+      dispatch(setRequestStatus('succeeded'))
+   }
 };
 
-export const createTodolistTC = (title: string): AppThunkType => (dispatch) => {
+export const createTodolistTC = (title: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
-   todolistsAPI.createTodolist(title)
-      .then((res) => {
-         if (res.data.resultCode === ResultCode.OK) {
-            dispatch(addTodoAC(res.data.data.item));
-            dispatch(setRequestStatus('succeeded'));
-         }
-         else {
-            handleServerAppError<{item: TodolistType}>(dispatch, res.data)
-         }
-      })
+   try {
+      const res = await todolistsAPI.createTodolist(title);
+      if (res.data.resultCode === ResultCode.OK) {
+         dispatch(addTodoAC(res.data.data.item));
+      } else {
+         handleServerAppError<{ item: TodolistType }>(dispatch, res.data);
+      }
+   } catch (e) {
+      if (isAxiosError(e)) {
+         handleServerNetworkError(dispatch, e.message);
+      }
+   } finally {
+      dispatch(setRequestStatus('succeeded'));
+   }
 };
 
-export const removeTodolistTC = (todoId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+export const removeTodolistTC = (todoId: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
    dispatch(setEntityStatusAC(todoId, 'loading'));
-   todolistsAPI.deleteTodolist(todoId)
-      .then(res => {
+   try {
+      const res = await todolistsAPI.deleteTodolist(todoId);
+      if (res.data.resultCode === ResultCode.OK) {
          dispatch(removeTodoAC(todoId));
-         dispatch(setRequestStatus('succeeded'));
-      })
-      .catch((e) => {
-         dispatch(setRequestStatus('failed'));
+      } else {
+         handleServerAppError(dispatch, res.data);
+      }
+   } catch (e) {
+      if (isAxiosError(e)) {
+         handleServerNetworkError(dispatch, e.message);
          dispatch(setEntityStatusAC(todoId, 'failed'));
-         dispatch(setErrorAC(e.message))
-      })
+      }
+   } finally {
+      dispatch(setRequestStatus('succeeded'));
+   }
 }
 
-export const changeTitleTodolistTC = (todoId: string, title: string) => (dispatch: Dispatch<AppActionsType>) => {
+export const changeTitleTodolistTC = (todoId: string, title: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
-   todolistsAPI.updateTodolistTitle(todoId, title)
-      .then(res => {
+   try {
+      const res = await todolistsAPI.updateTodolistTitle(todoId, title);
+      if (res.data.resultCode === ResultCode.OK) {
          dispatch(changeTodoTitleAC(todoId, title));
-         dispatch(setRequestStatus('succeeded'));
-      })
+      } else {
+         handleServerAppError(dispatch, res.data);
+      }
+   } catch (e) {
+      if (isAxiosError(e)) {
+         handleServerNetworkError(dispatch, e.message);
+      }
+   } finally {
+      dispatch(setRequestStatus('succeeded'));
+   }
 };
 
 

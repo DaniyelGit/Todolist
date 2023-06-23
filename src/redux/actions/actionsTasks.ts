@@ -67,6 +67,7 @@ export const getTasksTC = (todoId: string): AppThunkType => async (dispatch: Dis
 };
 export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType =>  async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
+
    try {
       const res = await tasksAPI.deleteTask(todoId, taskId);
       if (res.data.resultCode === ResultCode.OK) {
