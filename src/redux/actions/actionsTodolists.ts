@@ -67,8 +67,9 @@ export const getTodolistsTC = (): AppThunkType => (dispatch: Dispatch<AppActions
       });
 };
 
-export const createTodolistTC = (title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+export const createTodolistTC = (title: string): AppThunkType => (dispatch) => {
    dispatch(setRequestStatus('loading'));
+   dispatch(getTodolistsTC())
    todolistsAPI.createTodolist(title)
       .then((res) => {
          if (res.data.resultCode === ResultCode.OK) {

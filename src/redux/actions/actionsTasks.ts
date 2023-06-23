@@ -1,7 +1,7 @@
 import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {
    tasksAPI,
-   TaskType,
+   TaskType, TodolistType,
    UpdateDomainTaskModalType,
    UpdateTaskModalType
 } from "../../api/todolists-api";
@@ -9,7 +9,8 @@ import {Dispatch} from "redux";
 import {AppActionsType, AppDispatchType, AppRootStateType, AppThunkType, useAppDispatch} from "../store";
 import {ResultCode, setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError, isAxiosError} from "axios";
+import {AxiosError, AxiosResponse, isAxiosError} from "axios";
+import {ResponseType} from "../../api/todolists-api";
 
 
 // ActionsCreator
@@ -117,7 +118,7 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
                dispatch(updateTaskAC(todoId, taskId, model))
                dispatch(setRequestStatus('succeeded'));
             } else {
-               handleServerAppError<{ item: TaskType }>(dispatch, res.data);
+               handleServerAppError<{item: TodolistType}>(dispatch, res.data);
             }
          } catch (e) {
             if (isAxiosError(e)) {

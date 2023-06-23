@@ -19,7 +19,7 @@ export type AppRootStateType = ReturnType<typeof rootReducer>;
 // type for ThunkDispatch
 export type AppDispatchType = ThunkDispatch<AppRootStateType, any, AnyAction>;
 // type for ThunkActions
-export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppActionsType>;
+export type AppThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AnyAction>;
 //type for AllActionsType
 export type AppActionsType = TodolistsActionsType | TasksActionsType;
 // custom hook

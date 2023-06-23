@@ -14,6 +14,7 @@ export const handleServerAppError = <T>(dispatch: Dispatch<ErrorUtilsDispatchTyp
    else {
       dispatch(setErrorAC('Some error occurred'));
    }
+
 }
 
 

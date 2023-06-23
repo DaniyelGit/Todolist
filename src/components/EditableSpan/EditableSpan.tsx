@@ -23,14 +23,15 @@ export const EditableSpan = memo((props: EditableSpanPropsType) => {
       setNewTitle(e.currentTarget.value);
    };
 
-   const sendTaskTitleHandler = () => {
-      setEdit(false);
+   const onBlurHandler = () => {
+      setEdit(false)
       callBack(newTitle);
    }
 
+
    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
       if (e.key === 'Enter') {
-         sendTaskTitleHandler();
+         onBlurHandler();
       }
    }
 
@@ -40,7 +41,7 @@ export const EditableSpan = memo((props: EditableSpanPropsType) => {
                       value={newTitle}
                       onChange={onChangeHandler}
                       autoFocus
-                      onBlur={sendTaskTitleHandler}
+                      onBlur={onBlurHandler}
                       onKeyPress={onKeyPressHandler}
                       variant={'standard'}
                       size={'small'}
