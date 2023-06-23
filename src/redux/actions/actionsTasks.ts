@@ -65,7 +65,7 @@ export const getTasksTC = (todoId: string): AppThunkType => async (dispatch: Dis
       dispatch(setRequestStatus('succeeded'));
    }
 };
-export const deleteTaskTC = (todoId: string, taskId: string) =>  async (dispatch: Dispatch<AppActionsType>) => {
+export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType =>  async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
    try {
       const res = await tasksAPI.deleteTask(todoId, taskId);
@@ -84,7 +84,7 @@ export const deleteTaskTC = (todoId: string, taskId: string) =>  async (dispatch
 };
 
 
-export const createTaskTC = (todoId: string, title: string) => async (dispatch: Dispatch<AppActionsType>) => {
+export const createTaskTC = (todoId: string, title: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
 
    try {
@@ -103,7 +103,7 @@ export const createTaskTC = (todoId: string, title: string) => async (dispatch: 
    }
 };
 
-export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType) =>
+export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
    async (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
       dispatch(setRequestStatus('loading'));
       const task = getState().tasks[todoId].find(t => t.id === taskId);

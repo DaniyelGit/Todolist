@@ -1,7 +1,6 @@
 import {Dispatch} from "redux";
 import {setErrorAC, SetErrorType, setRequestStatus, SetRequestStatusType} from "../redux/reducers/app-reducer";
-import {ErrorsType, ResponseType} from "../api/todolists-api";
-import {AxiosError, isAxiosError} from "axios";
+import {ResponseType} from "../api/todolists-api";
 
 export const handleServerNetworkError = (dispatch: Dispatch<ErrorUtilsDispatchType>, errorText: string) => {
       dispatch(setRequestStatus('failed'));

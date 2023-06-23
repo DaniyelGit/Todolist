@@ -12,7 +12,7 @@ import {
 } from "../../redux/actions/actionsTasks";
 import {
    changeFilterTodoAC,
-   changeTitleTodolist,
+   changeTitleTodolistTC,
    removeTodolistTC
 } from "../../redux/actions/actionsTodolists";
 import {TaskStatuses, TaskType} from "../../api/todolists-api";
@@ -48,7 +48,7 @@ export const Todolist = memo((props: TodolistPropsType) => {
    }, [id]);
 
    const changeTodolistTitle = useCallback((newTitleTodolist: string) => {
-      dispatch(changeTitleTodolist(id, newTitleTodolist));
+      dispatch(changeTitleTodolistTC(id, newTitleTodolist));
    }, [id])
 
    const addTask = useCallback((title: string) => {
