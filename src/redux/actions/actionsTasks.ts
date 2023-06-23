@@ -10,7 +10,7 @@ import {Dispatch} from "redux";
 import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
 import {ResultCode, setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {AxiosError, isAxiosError} from "axios";
+import {isAxiosError} from "axios";
 
 
 
@@ -65,38 +65,42 @@ export const getTasksTC = (todoId: string): AppThunkType => async (dispatch: Dis
       dispatch(setRequestStatus('succeeded'));
    }
 };
-export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+export const deleteTaskTC = (todoId: string, taskId: string) =>  async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
-   tasksAPI.deleteTask(todoId, taskId)
-      .then(res => {
-         if (res.data.resultCode === 0) {
-            dispatch(removeTaskAC(todoId, taskId));
-            dispatch(setRequestStatus('succeeded'));
-         } else {
-            handleServerAppError(dispatch, res.data);
-         }
-      });
+   try {
+      const res = await tasksAPI.deleteTask(todoId, taskId);
+      if (res.data.resultCode === ResultCode.OK) {
+         dispatch(removeTaskAC(todoId, taskId));
+      } else {
+         handleServerAppError(dispatch, res.data);
+      }
+   } catch (e) {
+      if (isAxiosError(e)) {
+         handleServerNetworkError(dispatch, e.message);
+      }
+   } finally {
+     dispatch(setRequestStatus('succeeded'));
+   }
 };
 
 
-export const createTaskTC = (todoId: string, title: string): AppThunkType => (dispatch: Dispatch<AppActionsType>) => {
+export const createTaskTC = (todoId: string, title: string) => async (dispatch: Dispatch<AppActionsType>) => {
    dispatch(setRequestStatus('loading'));
-   tasksAPI.createTask(todoId, title)
-      .then(res => {
-         if (res.data.resultCode === ResultCode.OK) {
-            const task = res.data.data.item;
-            const action = addTaskAC(todoId, task);
-            dispatch(action);
-         } else {
-            handleServerAppError<{ item: TaskType }>(dispatch, res.data);
-         }
-      })
-      .catch((e: AxiosError) => {
+
+   try {
+      const res = await tasksAPI.createTask(todoId, title);
+      if (res.data.resultCode === ResultCode.OK) {
+         dispatch(addTaskAC(todoId, res.data.data.item));
+      } else {
+         handleServerAppError<{item: TaskType}>(dispatch, res.data);
+      }
+   } catch (e) {
+      if (isAxiosError(e)) {
          handleServerNetworkError(dispatch, e.message);
-      })
-      .finally(() => {
-         dispatch(setRequestStatus('idle'));
-      })
+      }
+   } finally {
+      dispatch(setRequestStatus('succeeded'));
+   }
 };
 
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType) =>
@@ -118,7 +122,6 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
             const res = await tasksAPI.updateTask(todoId, taskId, modelForDomain);
             if (res.data.resultCode === ResultCode.OK) {
                dispatch(updateTaskAC(todoId, taskId, model))
-               dispatch(setRequestStatus('succeeded'));
             } else {
                handleServerAppError<{ item: TodolistType }>(dispatch, res.data);
             }
@@ -130,6 +133,9 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
                const err = (e as Error).message;
                handleServerNetworkError(dispatch, err)
             }
+         }
+         finally {
+            dispatch(setRequestStatus('succeeded'));
          }
       }
    };
