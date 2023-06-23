@@ -99,3 +99,8 @@ type GetTaskResponse = {
    totalCount: number
    items: TaskType[]
 };
+
+export type ErrorsType = {
+   message: string
+   field: string
+}
