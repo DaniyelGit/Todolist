@@ -5,7 +5,7 @@ import {Header} from "./components/Header/Header";
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import TodolistsList from "./components/Todolist/TodolistsList";
 import {Login} from "./components/Login/Login";
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 
 
 export const App = () => {
@@ -18,6 +18,9 @@ export const App = () => {
                <Routes>
                   <Route path={'/'} element={<TodolistsList/>}/>
                   <Route path={'/login'} element={<Login/>}/>
+
+                  <Route path={'/404'} element={<h1 style={{textAlign: "center"}}>404: PAGE NOT FOUND</h1>}/>
+                  <Route path={'*'} element={<Navigate to={'/404'}/>}/>
                </Routes>
             </Box>
          </div>
