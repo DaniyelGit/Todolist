@@ -1,4 +1,10 @@
-import {ResultCode, SetErrorACType, setRequestStatusAC, SetRequestStatusACType} from "./app-reducer";
+import {
+   ResultCode,
+   SetErrorACType,
+   setIsInitializedAC, SetIsInitializedACType,
+   setRequestStatusAC,
+   SetRequestStatusACType
+} from "./app-reducer";
 import {Dispatch} from "redux";
 import {LoginType} from "../../components/Login/Login";
 import {authAPI} from "../../api/todolists-api";
@@ -50,6 +56,7 @@ export const meTC = () => async (dispatch: Dispatch<ActionsType>) => {
    try {
       const res = await authAPI.me();
       if (res.data.resultCode === ResultCode.OK) {
+         dispatch(setIsInitializedAC(true));
          dispatch(setIsLoggedInAC(true));
       } else {
          handleServerAppError(dispatch, res.data);
@@ -64,4 +71,7 @@ export const meTC = () => async (dispatch: Dispatch<ActionsType>) => {
 }
 
 // types
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetRequestStatusACType | SetErrorACType
+type ActionsType = ReturnType<typeof setIsLoggedInAC>
+   | SetRequestStatusACType
+   | SetErrorACType
+   | SetIsInitializedACType;

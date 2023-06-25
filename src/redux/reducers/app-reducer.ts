@@ -9,6 +9,7 @@ export enum ResultCode {
 const initialState = {
    status: 'idle' as RequestStatusType,
    error: null as null | string,
+   isInitialized: false,
 }
 
 export type InitialStateType = typeof initialState;
@@ -27,21 +28,30 @@ export const AppReducer = (state: InitialStateType = initialState, action: AppRe
             error: action.error
          }
       }
+      case "APP/SET_INITIALIZED": {
+         return  {
+            ...state,
+            isInitialized: action.isInitialized
+         }
+      }
       default: {
          return state;
       }
    }
 };
 
-export type AppRequestStatusType = SetRequestStatusACType | SetErrorACType;
-
-export type SetRequestStatusACType = ReturnType<typeof setRequestStatusAC>;
-export type SetErrorACType = ReturnType<typeof setErrorAC>;
 
 export const setRequestStatusAC = (status: RequestStatusType) => {
    return {
       type: 'APP/SET_STATUS',
       status,
+   } as const;
+};
+
+export const setIsInitializedAC = (isInitialized: boolean) => {
+   return {
+      type: 'APP/SET_INITIALIZED',
+      isInitialized,
    } as const;
 };
 
@@ -51,4 +61,10 @@ export const setErrorAC = (error: string | null) => {
       error,
    } as const;
 }
+
+export type AppRequestStatusType = SetRequestStatusACType | SetErrorACType | SetIsInitializedACType;
+
+export type SetRequestStatusACType = ReturnType<typeof setRequestStatusAC>;
+export type SetErrorACType = ReturnType<typeof setErrorAC>;
+export type SetIsInitializedACType = ReturnType<typeof setIsInitializedAC>;
 
