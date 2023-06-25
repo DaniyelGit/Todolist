@@ -45,5 +45,23 @@ export const loginTC = (data: LoginType) => async (dispatch: Dispatch<ActionsTyp
    }
 }
 
+export const meTC = () => async (dispatch: Dispatch<ActionsType>) => {
+   dispatch(setRequestStatusAC('loading'))
+   try {
+      const res = await authAPI.me();
+      if (res.data.resultCode === ResultCode.OK) {
+         dispatch(setIsLoggedInAC(true));
+      } else {
+         handleServerAppError(dispatch, res.data);
+      }
+   }
+   catch (e) {
+      const error = (e as {message: string});
+      handleServerNetworkError(dispatch, error.message);
+   } finally {
+      dispatch(setRequestStatusAC('succeeded'));
+   }
+}
+
 // types
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | SetRequestStatusACType | SetErrorACType
