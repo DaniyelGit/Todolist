@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {TodolistsDomainType} from "../../redux/reducers/todolists-reducer";
 import Grid from "@mui/material/Unstable_Grid2";
-import {Box, Paper} from "@mui/material";
+import {Box, Container, Paper} from "@mui/material";
 import {Todolist} from "./Todolist";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {createTodolistTC, getTodolistsTC} from "../../redux/actions/actionsTodolists";
@@ -22,24 +22,31 @@ export const TodolistsList = () => {
 
    return (
       <>
-         <Grid container style={{padding: '20px'}}>
+         {/*<Grid container style={{padding: '20px'}}>
             <AddItemForm addItem={addTodolist}/>
-         </Grid>
-         <div style={{display: "flex", width: '100%', overflowX: 'auto'}}>
-            {
-               todolists.map(tl => {
-                  return (
-                        <div style={{padding: '20px'}}>
-                           <Paper style={{padding: '10px'}}>
-                              <Todolist
-                                 todolist={tl}
-                              />
-                           </Paper>
-                        </div>
-                  );
-               })
-            }
-         </div>
+         </Grid>*/}
+         <Box style={{padding: '20px'}}>
+            <div>
+               <div style={{marginBottom: '20px'}}>
+                  <AddItemForm addItem={addTodolist}/>
+               </div>
+               <div style={{display: "flex", width: '100%', overflowX: 'auto'}}>
+                  {
+                     todolists.map(tl => {
+                        return (
+                           <Box style={{padding: '10px'}}>
+                              <Paper style={{padding: '10px'}}>
+                                 <Todolist
+                                    todolist={tl}
+                                 />
+                              </Paper>
+                           </Box>
+                        );
+                     })
+                  }
+               </div>
+            </div>
+         </Box>
       </>
    );
 };

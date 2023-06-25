@@ -5,10 +5,11 @@ body {
 }
 
 #root {
-    display: inherit;
+    display: flex;
 }
 
 .App {
+    flex-grow: 1;
     height: 100%;
 }
 

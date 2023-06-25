@@ -10,7 +10,7 @@ export const Header = () => {
    const status = useAppSelector((state) => state.app.status);
 
    return (
-      <AppBar position="static">
+      <AppBar position="fixed">
          <Toolbar>
             <IconButton
                size="large"
