@@ -1,9 +1,9 @@
 import {Dispatch} from "redux";
-import {setErrorAC, SetErrorType, setRequestStatus, SetRequestStatusType} from "../redux/reducers/app-reducer";
+import {setErrorAC, SetErrorACType, setRequestStatusAC, SetRequestStatusACType} from "../redux/reducers/app-reducer";
 import {ResponseType} from "../api/todolists-api";
 
 export const handleServerNetworkError = (dispatch: Dispatch<ErrorUtilsDispatchType>, errorText: string) => {
-      dispatch(setRequestStatus('failed'));
+      dispatch(setRequestStatusAC('failed'));
       dispatch(setErrorAC(errorText));
 }
 
@@ -17,4 +17,4 @@ export const handleServerAppError = <T>(dispatch: Dispatch<ErrorUtilsDispatchTyp
 }
 
 
-type ErrorUtilsDispatchType = SetRequestStatusType | SetErrorType;
+type ErrorUtilsDispatchType = SetRequestStatusACType | SetErrorACType;

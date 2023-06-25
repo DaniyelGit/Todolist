@@ -14,6 +14,12 @@ type FormikErrorType = {
    password?: string
 }
 
+export type LoginType = {
+   email: string,
+   password: string,
+   rememberMe: boolean,
+}
+
 export const Login = () => {
 
    const formik = useFormik({

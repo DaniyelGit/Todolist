@@ -8,7 +8,7 @@ import {
 } from "../../api/todolists-api";
 import {Dispatch} from "redux";
 import {AppActionsType, AppRootStateType, AppThunkType} from "../store";
-import {ResultCode, setErrorAC, SetErrorType, setRequestStatus} from "../reducers/app-reducer";
+import {ResultCode, setErrorAC, SetErrorACType, setRequestStatusAC} from "../reducers/app-reducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {isAxiosError} from "axios";
 
@@ -49,7 +49,7 @@ export const setTasksAC = (todoId: string, tasks: TaskType[]) => {
 
 // ThunksCreator
 export const getTasksTC = (todoId: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
-   dispatch(setRequestStatus('loading'));
+   dispatch(setRequestStatusAC('loading'));
 
    try {
       const res = await tasksAPI.getTasks(todoId);
@@ -62,11 +62,11 @@ export const getTasksTC = (todoId: string): AppThunkType => async (dispatch: Dis
       if (isAxiosError(e))
       handleServerNetworkError(dispatch, e.message)
    } finally {
-      dispatch(setRequestStatus('succeeded'));
+      dispatch(setRequestStatusAC('succeeded'));
    }
 };
 export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType =>  async (dispatch: Dispatch<AppActionsType>) => {
-   dispatch(setRequestStatus('loading'));
+   dispatch(setRequestStatusAC('loading'));
 
    try {
       const res = await tasksAPI.deleteTask(todoId, taskId);
@@ -80,13 +80,13 @@ export const deleteTaskTC = (todoId: string, taskId: string): AppThunkType =>  a
          handleServerNetworkError(dispatch, e.message);
       }
    } finally {
-     dispatch(setRequestStatus('succeeded'));
+     dispatch(setRequestStatusAC('succeeded'));
    }
 };
 
 
 export const createTaskTC = (todoId: string, title: string): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
-   dispatch(setRequestStatus('loading'));
+   dispatch(setRequestStatusAC('loading'));
 
    try {
       const res = await tasksAPI.createTask(todoId, title);
@@ -100,13 +100,13 @@ export const createTaskTC = (todoId: string, title: string): AppThunkType => asy
          handleServerNetworkError(dispatch, e.message);
       }
    } finally {
-      dispatch(setRequestStatus('succeeded'));
+      dispatch(setRequestStatusAC('succeeded'));
    }
 };
 
 export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomainTaskModalType): AppThunkType =>
    async (dispatch: Dispatch<AppActionsType>, getState: () => AppRootStateType) => {
-      dispatch(setRequestStatus('loading'));
+      dispatch(setRequestStatusAC('loading'));
       const task = getState().tasks[todoId].find(t => t.id === taskId);
       if (task) {
          const modelForDomain: UpdateTaskModalType = {
@@ -136,7 +136,7 @@ export const updateTaskTC = (todoId: string, taskId: string, model: UpdateDomain
             }
          }
          finally {
-            dispatch(setRequestStatus('succeeded'));
+            dispatch(setRequestStatusAC('succeeded'));
          }
       }
    };
@@ -156,7 +156,7 @@ export type TasksActionsType = RemoveTaskActionType
    | SetTodolistsType
    | SetTasksType
    | UpdateTaskACType
-   | SetErrorType;
+   | SetErrorACType;
 
 
 type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;

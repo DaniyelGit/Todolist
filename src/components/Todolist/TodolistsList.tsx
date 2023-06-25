@@ -34,7 +34,7 @@ export const TodolistsList = () => {
                   {
                      todolists.map(tl => {
                         return (
-                           <Box style={{padding: '10px'}}>
+                           <Box key={`todo-${tl.id}`} style={{padding: '10px'}}>
                               <Paper style={{padding: '10px'}}>
                                  <Todolist
                                     todolist={tl}

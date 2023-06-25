@@ -33,12 +33,12 @@ export const AppReducer = (state: InitialStateType = initialState, action: AppRe
    }
 };
 
-export type AppRequestStatusType = SetRequestStatusType | SetErrorType;
+export type AppRequestStatusType = SetRequestStatusACType | SetErrorACType;
 
-export type SetRequestStatusType = ReturnType<typeof setRequestStatus>;
-export type SetErrorType = ReturnType<typeof setErrorAC>;
+export type SetRequestStatusACType = ReturnType<typeof setRequestStatusAC>;
+export type SetErrorACType = ReturnType<typeof setErrorAC>;
 
-export const setRequestStatus = (status: RequestStatusType) => {
+export const setRequestStatusAC = (status: RequestStatusType) => {
    return {
       type: 'APP/SET_STATUS',
       status,
