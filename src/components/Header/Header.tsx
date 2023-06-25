@@ -3,6 +3,7 @@ import {AppBar, Button, IconButton, Toolbar, Typography} from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
 import Menu from "@mui/icons-material/Menu";
 import {useAppSelector} from "../../redux/store";
+import {NavLink} from "react-router-dom";
 
 
 
@@ -24,7 +25,11 @@ export const Header = () => {
             <Typography variant="h6" component="a" sx={{flexGrow: 1, textTransform: "uppercase"}}>
                Logo
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit">
+               <NavLink to={'/login'}>
+                  Login
+               </NavLink>
+            </Button>
          </Toolbar>
          {status === 'loading' && <LinearProgress color="secondary"/>}
       </AppBar>

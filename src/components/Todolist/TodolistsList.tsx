@@ -1,18 +1,22 @@
 import React, {useCallback, useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {TodolistsDomainType} from "../../redux/reducers/todolists-reducer";
-import Grid from "@mui/material/Unstable_Grid2";
-import {Box, Container, Paper} from "@mui/material";
+import {Box, Paper} from "@mui/material";
 import {Todolist} from "./Todolist";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {createTodolistTC, getTodolistsTC} from "../../redux/actions/actionsTodolists";
+import {Navigate} from "react-router-dom";
 
 export const TodolistsList = () => {
 
    const todolists = useAppSelector<TodolistsDomainType[]>(state => state.todolists);
+   const isLoggedIn = useAppSelector<boolean>(state => state.auth.isLoggedIn);
    const dispatch = useAppDispatch();
 
    useEffect(() => {
+      if (!isLoggedIn) {
+         return;
+      }
       dispatch(getTodolistsTC())
    }, []);
 
@@ -20,11 +24,12 @@ export const TodolistsList = () => {
       dispatch(createTodolistTC(title))
    }, [dispatch]);
 
+   if (!isLoggedIn) {
+      return <Navigate to={'/login'}/>;
+   }
+
    return (
       <>
-         {/*<Grid container style={{padding: '20px'}}>
-            <AddItemForm addItem={addTodolist}/>
-         </Grid>*/}
          <Box style={{padding: '20px'}}>
             <div>
                <div style={{marginBottom: '20px'}}>
