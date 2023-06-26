@@ -56,8 +56,26 @@ export const meTC = () => async (dispatch: Dispatch<ActionsType>) => {
    try {
       const res = await authAPI.me();
       if (res.data.resultCode === ResultCode.OK) {
-         dispatch(setIsInitializedAC(true));
          dispatch(setIsLoggedInAC(true));
+      } else {
+         handleServerAppError(dispatch, res.data);
+      }
+   }
+   catch (e) {
+      const error = (e as {message: string});
+      handleServerNetworkError(dispatch, error.message);
+   } finally {
+      dispatch(setRequestStatusAC('succeeded'));
+      dispatch(setIsInitializedAC(true));
+   }
+}
+
+export const logOutTC = () => async (dispatch: Dispatch<ActionsType>) => {
+   dispatch(setRequestStatusAC('loading'))
+   try {
+      const res = await authAPI.logOut();
+      if (res.data.resultCode === ResultCode.OK) {
+         dispatch(setIsLoggedInAC(false));
       } else {
          handleServerAppError(dispatch, res.data);
       }

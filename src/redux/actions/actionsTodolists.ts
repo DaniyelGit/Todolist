@@ -12,6 +12,7 @@ import {
 
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {isAxiosError} from "axios";
+import {getTasksTC, setTasksAC} from "./actionsTasks";
 
 // ********************** ActionsCreator ***********************
 export const removeTodoAC = (id: string) => {
@@ -59,11 +60,11 @@ export const setEntityStatusAC = (todoId: string, entityStatus: RequestStatusTyp
 };
 
 // ********************** ThunksCreator ****************************
-export const getTodolistsTC = (): AppThunkType => async (dispatch: Dispatch<AppActionsType>) => {
+export const getTodolistsTC = (): AppThunkType => async (dispatch) => {
    dispatch(setRequestStatusAC('loading'));
    try {
-      const res = await todolistsAPI.getTodolists();
-      dispatch(setTodolistsAC(res.data));
+      const todolists = await todolistsAPI.getTodolists();
+      dispatch(setTodolistsAC(todolists.data));
    } catch (e) {
       if (isAxiosError(e)) {
          handleServerNetworkError(dispatch, e.message)
