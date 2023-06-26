@@ -65,6 +65,9 @@ export const getTodolistsTC = (): AppThunkType => async (dispatch) => {
    try {
       const todolists = await todolistsAPI.getTodolists();
       dispatch(setTodolistsAC(todolists.data));
+      todolists.data.forEach(({id}) => {
+         dispatch(getTasksTC(id));
+      });
    } catch (e) {
       if (isAxiosError(e)) {
          handleServerNetworkError(dispatch, e.message)
