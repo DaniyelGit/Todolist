@@ -53,6 +53,9 @@ export const TasksReducer = (state: TasksStateType = initialStateTasks, action: 
             [action.todoId]: state[action.todoId].map(t => t.id === action.taskId ? {...t, ...action.payload} : t),
          }
       }
+      case ACTIONS_TODOLISTS.CLEAR_TODOLISTS_DATA: {
+         return {};
+      }
       default: {
          return state;
       }

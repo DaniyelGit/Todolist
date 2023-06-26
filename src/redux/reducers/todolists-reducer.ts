@@ -41,6 +41,9 @@ export const TodolistReducer = (state: TodolistsDomainType[] = initialStateTodol
       case ACTIONS_TODOLISTS.SET_ENTITY_STATUS: {
          return state.map(tl => tl.id === action.todoId ? {...tl, entityStatus: action.entityStatus} : tl);
       }
+      case ACTIONS_TODOLISTS.CLEAR_TODOLISTS_DATA: {
+         return [];
+      }
       default: {
          return state;
       }

@@ -9,6 +9,7 @@ import {Dispatch} from "redux";
 import {LoginType} from "../../components/Login/Login";
 import {authAPI} from "../../api/todolists-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {clearTodolistsDataAC, ClearTodolistsDataType} from "../actions/actionsTodolists";
 
 const initialState = {
    isLoggedIn: false
@@ -76,6 +77,7 @@ export const logOutTC = () => async (dispatch: Dispatch<ActionsType>) => {
       const res = await authAPI.logOut();
       if (res.data.resultCode === ResultCode.OK) {
          dispatch(setIsLoggedInAC(false));
+         dispatch(clearTodolistsDataAC());
       } else {
          handleServerAppError(dispatch, res.data);
       }
@@ -92,4 +94,5 @@ export const logOutTC = () => async (dispatch: Dispatch<ActionsType>) => {
 type ActionsType = ReturnType<typeof setIsLoggedInAC>
    | SetRequestStatusACType
    | SetErrorACType
-   | SetIsInitializedACType;
+   | SetIsInitializedACType
+   | ClearTodolistsDataType;

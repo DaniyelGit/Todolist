@@ -58,6 +58,11 @@ export const setEntityStatusAC = (todoId: string, entityStatus: RequestStatusTyp
       entityStatus,
    } as const;
 };
+export const clearTodolistsDataAC = () => {
+   return {
+      type: ACTIONS_TODOLISTS.CLEAR_TODOLISTS_DATA,
+   } as const;
+}
 
 // ********************** ThunksCreator ****************************
 export const getTodolistsTC = (): AppThunkType => async (dispatch) => {
@@ -141,6 +146,7 @@ export enum ACTIONS_TODOLISTS {
    CHANGE_TODOLIST_FILTER = 'CHANGE-TODOLIST-FILTER',
    SET_TODOLISTS = 'SET_TODOLISTS',
    SET_ENTITY_STATUS = 'SET_ENTITY_STATUS',
+   CLEAR_TODOLISTS_DATA = 'CLEAR_TODOLISTS_DATA',
 }
 
 
@@ -150,7 +156,8 @@ export type TodolistsActionsType = RemoveTodoActionType
    | ChangeFilterTodoActionType
    | SetTodolistsType
    | SetRequestStatusACType
-   | SetEntityStatus;
+   | SetEntityStatus
+   | ClearTodolistsDataType;
 
 type ChangeFilterTodoActionType = ReturnType<typeof changeFilterTodoAC>;
 type ChangeTodoTitleActionType = ReturnType<typeof changeTodoTitleAC>;
@@ -158,3 +165,4 @@ export type AddTodoActionType = ReturnType<typeof addTodoAC>;
 export type RemoveTodoActionType = ReturnType<typeof removeTodoAC>;
 export type SetTodolistsType = ReturnType<typeof setTodolistsAC>;
 export type SetEntityStatus = ReturnType<typeof setEntityStatusAC>;
+export type ClearTodolistsDataType = ReturnType<typeof clearTodolistsDataAC>;

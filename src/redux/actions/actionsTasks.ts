@@ -1,4 +1,4 @@
-import {AddTodoActionType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
+import {AddTodoActionType, ClearTodolistsDataType, RemoveTodoActionType, SetTodolistsType} from "./actionsTodolists";
 import {
    ErrorsType,
    tasksAPI,
@@ -156,7 +156,8 @@ export type TasksActionsType = RemoveTaskActionType
    | SetTodolistsType
    | SetTasksType
    | UpdateTaskACType
-   | SetErrorACType;
+   | SetErrorACType
+   | ClearTodolistsDataType;
 
 
 type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
